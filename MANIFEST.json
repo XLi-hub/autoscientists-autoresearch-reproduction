@@ -6,18 +6,18 @@
   },
   {
     "path": "ARCHIVE_NOTES.json",
-    "bytes": 3368,
-    "sha256": "692e4cb9dcf7e27ac758408da95c3df1c7cc89c0cca1ab0fc7b5436d48b0388f"
+    "bytes": 3419,
+    "sha256": "8c98b3716d7e3e49a81d399911ce90756a45ae08f7b36480cee4ed7c3851fbc2"
   },
   {
     "path": "INDEX.json",
-    "bytes": 130718,
-    "sha256": "3eab78dced102ad39fc76b5849d601bcb8904621351b085746c953ee30912510"
+    "bytes": 128476,
+    "sha256": "dc1628647b1b8857a0ebc8681e3f5fd917b10a4ba612a219b63c27e5e08f87ad"
   },
   {
     "path": "README.md",
-    "bytes": 641,
-    "sha256": "43344941d811ee49c2d1dc7a9bfd53eafde6773efd39969df138cea94646504c"
+    "bytes": 627,
+    "sha256": "a47debe5e7be8a8581a79f873b1debc07212ea116000b989ea8f455068ffd8ae"
   },
   {
     "path": "runs/ar_20261022.hi/.gitignore",
@@ -5178,51 +5178,6 @@
     "path": "shared/dashboard/schema.json",
     "bytes": 28037,
     "sha256": "ee5ba901c50cb0e845ee5ee6987184534b59ab9dace7fffba02fbc90a7c195cb"
-  },
-  {
-    "path": "shared/temporary/autodl.sh.log",
-    "bytes": 84,
-    "sha256": "0ac51cb2e11142de1c3b48658762e2d876489bd6dbb2cca70d47a143dc2c9d07"
-  },
-  {
-    "path": "shared/temporary/big.txt",
-    "bytes": 7351,
-    "sha256": "26fb1d8da0d0b9f3f5c6c275c2db40eafbf171926c3c7c18a964b1996286085e"
-  },
-  {
-    "path": "shared/temporary/f1.txt",
-    "bytes": 1988,
-    "sha256": "c8a9488002a9b19e71dad4e88d9129691b516aa5ca5bcf4d592fcad2529bfdb2"
-  },
-  {
-    "path": "shared/temporary/f2.txt",
-    "bytes": 1736,
-    "sha256": "26f90943de7fda04a063c0b88294992e15cc82f85f4b2d1a1d71f74d2ee2de8f"
-  },
-  {
-    "path": "shared/temporary/oci.txt",
-    "bytes": 2106,
-    "sha256": "95274c6c8ae4a99685952cb57ba969a9177bea76f58038bf2da330ca2bdf5bbb"
-  },
-  {
-    "path": "shared/temporary/r.txt",
-    "bytes": 0,
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  },
-  {
-    "path": "shared/temporary/s1.txt",
-    "bytes": 191831,
-    "sha256": "568acd0a39c7cd88236b28b29f2ff0a666364bbc03005c3573519f9d00a47a39"
-  },
-  {
-    "path": "shared/temporary/s2.txt",
-    "bytes": 13797,
-    "sha256": "275248a7ee9a63c22eba7e8636c0f70112ec765497b34dc01e98fc92f74c02f8"
-  },
-  {
-    "path": "shared/temporary/s_deepseek-v4-pro.txt",
-    "bytes": 3779,
-    "sha256": "f79afaef3d8f1afd26924b8c612111335a3803f0a80a602735e7611458fd26ee"
   },
   {
     "path": "shared/trajectories/projects/-root/f697d505-60eb-44bc-9c53-2fdead9bf460.jsonl",

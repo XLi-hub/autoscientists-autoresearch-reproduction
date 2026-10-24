@@ -61,7 +61,7 @@
       "_migrations": 19
     },
     "trajectories": 1,
-    "temporary": 9
+    "temporary": 0
   },
   "files": [
     {
@@ -2067,20 +2067,6 @@
       "sha256": "4c7274c450d80cb5b9917f22aa0d80b8bcb13bcadf5da37bafa026b588cc8bd6"
     },
     {
-      "source": "temporary/autodl.sh.log",
-      "path": "shared/temporary/autodl.sh.log",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "0ac51cb2e11142de1c3b48658762e2d876489bd6dbb2cca70d47a143dc2c9d07"
-    },
-    {
-      "source": "temporary/big.txt",
-      "path": "shared/temporary/big.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "26fb1d8da0d0b9f3f5c6c275c2db40eafbf171926c3c7c18a964b1996286085e"
-    },
-    {
       "source": "temporary/cap_post_ids.json",
       "path": "runs/ar_20261024/temporary/cap_post_ids.json",
       "owner": "ar_20261024",
@@ -2163,20 +2149,6 @@
       "owner": "ar_20261024",
       "basis": "session_tool_file_reference",
       "sha256": "6976a86a92586caf548ea67935c70eac1a265e3189665d4a763fada5a10a75c4"
-    },
-    {
-      "source": "temporary/f1.txt",
-      "path": "shared/temporary/f1.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "c8a9488002a9b19e71dad4e88d9129691b516aa5ca5bcf4d592fcad2529bfdb2"
-    },
-    {
-      "source": "temporary/f2.txt",
-      "path": "shared/temporary/f2.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "26f90943de7fda04a063c0b88294992e15cc82f85f4b2d1a1d71f74d2ee2de8f"
     },
     {
       "source": "temporary/finalize.py",
@@ -2275,13 +2247,6 @@
       "owner": "ar_20261024",
       "basis": "session_tool_file_reference",
       "sha256": "92999a1fa8294530f468d626286cc8512b4aef302b0ec03acd147e6776f671ea"
-    },
-    {
-      "source": "temporary/oci.txt",
-      "path": "shared/temporary/oci.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "95274c6c8ae4a99685952cb57ba969a9177bea76f58038bf2da330ca2bdf5bbb"
     },
     {
       "source": "temporary/orient.py",
@@ -2480,13 +2445,6 @@
       "sha256": "f73474c90ef2cda2ababe3e6c81f33808bc7f27bccbc2122ba4cc03d1ef2f1b0"
     },
     {
-      "source": "temporary/r.txt",
-      "path": "shared/temporary/r.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    {
       "source": "temporary/read2.py",
       "path": "runs/ar_20261022.hi/temporary/read2.py",
       "owner": "ar_20261022.hi",
@@ -2604,27 +2562,6 @@
       "owner": "ar_20261022.hi",
       "basis": "session_tool_file_reference",
       "sha256": "df6bfc582f6e54bd0d95c81da01c229a6884a84eb537620a3a85a96936575a03"
-    },
-    {
-      "source": "temporary/s1.txt",
-      "path": "shared/temporary/s1.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "568acd0a39c7cd88236b28b29f2ff0a666364bbc03005c3573519f9d00a47a39"
-    },
-    {
-      "source": "temporary/s2.txt",
-      "path": "shared/temporary/s2.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "275248a7ee9a63c22eba7e8636c0f70112ec765497b34dc01e98fc92f74c02f8"
-    },
-    {
-      "source": "temporary/s_deepseek-v4-pro.txt",
-      "path": "shared/temporary/s_deepseek-v4-pro.txt",
-      "owner": "shared",
-      "basis": "unassigned_or_shared",
-      "sha256": "f79afaef3d8f1afd26924b8c612111335a3803f0a80a602735e7611458fd26ee"
     },
     {
       "source": "temporary/searches.py",
