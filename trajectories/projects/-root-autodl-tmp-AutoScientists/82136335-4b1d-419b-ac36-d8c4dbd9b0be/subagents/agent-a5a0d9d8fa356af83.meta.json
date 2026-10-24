@@ -1,0 +1,10 @@
+{
+  "agentType": "general-purpose",
+  "launchedWithDefaults": true,
+  "description": "gpu8 calibration cycle 3",
+  "toolUseId": "call_00_GnPqKQCXJ8gX1mgGTrLc4812",
+  "spawnDepth": 1,
+  "requestShape": "background",
+  "requestNonInteractive": true,
+  "finished": true
+}

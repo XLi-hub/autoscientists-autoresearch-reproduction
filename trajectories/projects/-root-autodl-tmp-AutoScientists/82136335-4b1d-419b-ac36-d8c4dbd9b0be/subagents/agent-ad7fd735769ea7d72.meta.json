@@ -1,0 +1,10 @@
+{
+  "agentType": "general-purpose",
+  "launchedWithDefaults": true,
+  "description": "gpu11 experiment cycle 4",
+  "toolUseId": "call_00_2lg35Tj4REm9O7Jlajfy3120",
+  "spawnDepth": 1,
+  "requestShape": "background",
+  "requestNonInteractive": true,
+  "finished": true
+}

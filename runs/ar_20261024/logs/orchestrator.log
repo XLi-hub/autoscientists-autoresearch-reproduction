@@ -1,0 +1,21 @@
+{"cycle": 1, "event": "launch", "at": "2026-10-24T06:41:10.084518+00:00", "wave": {"gpu": [{"agent": "ar_20261024_gpu1", "cuda": "0", "team": "throughput"}, {"agent": "ar_20261024_gpu2", "cuda": "1", "team": "gradient-quality"}], "analysts": ["ar_20261024_analyst1", "ar_20261024_analyst2", "ar_20261024_analyst3"]}, "setup_fixes": ["seeded champion/{train.py,prepare.py,pyproject.toml,uv.lock} from repo/", "copied repo into 6 GPU agent workspaces", "champion.md: metric_name=val_bpb, direction=minimize, awaiting_baseline", "created 3 team workspaces + roster", "seeded 1 proposal+queue item per team"]}
+{"cycle": 2, "event": "launch", "at": "2026-10-24T07:19:09.276662+00:00", "gpu": [{"agent": "ar_20261024_gpu3", "cuda": "0", "team": "capacity"}, {"agent": "ar_20261024_gpu4", "cuda": "1", "team": "throughput"}], "analysts": ["ar_20261024_analyst1", "ar_20261024_analyst2", "ar_20261024_analyst3"], "champion": "exp_tput_compile_autotune 1.147892", "n_experiments": 7}
+
+[2026-10-24T07:50:20.611424+00:00] CYCLE 3 launch
+  harvested cycle2 tail: mlp_exp_2 KEEP 1.132007, cap_ar48_w384 KEEP 1.094760, batch_2e17 KEEP 1.088286 (champion), batch_2e16 DISCARD
+  champion verified sha1 e102f683... == gpu4 train_exp_tput_batch_2e17.py
+  gpu3 alive on GPU0: running exp_cap_ar48_b2e17 (correctly stacked on new champion base)
+  dispatched gpu6 -> CUDA_VISIBLE_DEVICES=1
+  meta_improve(3): keep_rate 0.462, no critical pattern -> skipped (logged meta_results.tsv)
+  auto-bracket: posted exp_cap_ar56_w448 proposal + queue v13 (capacity)
+[2026-10-24T07:54:56.323304+00:00] gpu3 exit (4 exp, AR48 KEEP 1.094760, stack null) -> harvested; champion unchanged sha1 e102f683; gpu5 dispatched CUDA_VISIBLE_DEVICES=0 steered to gradient-quality (divergence); AR56 bracket pruned by analysts
+[2026-10-24T07:55:30.211082+00:00] analyst3 exit: gq queue unblocked; AR56 no-op pruned; key gap: sigma unmeasured at 956-step regime
+[2026-10-24T08:01:14.663172+00:00] gpu6 exit (head_dim_64 DISCARD 1.096009) -> harvested; champion unchanged; patched champion.md v13 adding machine-readable val_bpb key (HEARTBEAT champ.get(metric_name,inf) returned inf -> false-KEEP risk, second occurrence of this class); gpu7 dispatched CUDA_VISIBLE_DEVICES=1 -> MATRIX_LR / calibration
+[2026-10-24T08:01:42.808323+00:00] analyst1 exit: matrix_lr bracket + calibration queued; ordering guidance = calibration before matrix_lr arms
+[2026-10-24T08:12:08.174977+00:00] gpu5 exit (2 nulls: adam_beta2_hi, muon_beta2_hi) -> harvested; gpu8 dispatched CUDA_VISIBLE_DEVICES=0 for exp_cal_champion_seed43 (non-promotable sigma calibration)
+[2026-10-24T08:17:49.932760+00:00] gpu7 exit; harvested matrix_lr_lo 1.086983 (KEEP-UNCONFIRMED, not promoted). FIX: scripts/setup_dispatch_agent.py written (dirs+register+roster) and gpu8 retro-registered (was created 08:17 by my own register call). Setup gap caused gpu7's lost [RESULT] post.
+[2026-10-24T08:21:06.020839+00:00] CALIBRATION landed: sigma=0.00266, 2-sigma=0.0053 (n=4). gpu10 dispatched CUDA_VISIBLE_DEVICES=0 -> exp_cap_ar80_w640 (clean capacity-UP probe); added gpu10 to capacity roster v8.
+[2026-10-24T08:23:50.687241+00:00] analyst2 cycle4 exit: queue gate cleared (4 proposals claimable), WD bracket filed, GQ hypothesis at falsification threshold (deferred)
+[2026-10-24T08:27:42.230036+00:00] gpu9 exit: matrix_lr_lo seed43 FAILED (flat). sigma=0.002503/2sigma=0.0050. gpu11 dispatched dev1 -> weight_decay_lo (FIRST-ORDER, never varied); analyst3 dispatched cycle5 -> GQ hypothesis falsification + re-form.
+[2026-10-24T08:33:18.930181+00:00] analyst3 cycle5: GQ falsified + teams reformed (roster v10). Capacity ve_density_2/depth6, gq weight_decay_hi still claimable; throughput queue thin.
+[2026-10-24T08:57:14.432196+00:00] STAGNATION: 0 KEEPs in last 10 experiments -> loop stopped per task-profile. final report written to logs/FINAL_REPORT.md. GPUs idle, no claims outstanding.

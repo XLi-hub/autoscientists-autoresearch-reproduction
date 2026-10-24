@@ -1,0 +1,24 @@
+{
+  "run_id": "ar_20261024",
+  "workshop": "ar_ar_20261024",
+  "workspace_id": "e14269b7-8ec4-4e74-947b-da7ee1484524",
+  "prefix": "ar_20261024",
+  "api": "http://localhost:3000/api/v1",
+  "created_at": "2026-10-24T06:38:57.484282+00:00",
+  "template": "/root/autodl-tmp/AutoScientists",
+  "ablation": "/root/autodl-tmp/ar_20261024",
+  "protein": "SPIKE_SARS2_Starr_2020_binding",
+  "task_type": "optimization",
+  "agents": [
+    "ar_20261024_monitor",
+    "ar_20261024_gpu1",
+    "ar_20261024_gpu2",
+    "ar_20261024_gpu3",
+    "ar_20261024_gpu4",
+    "ar_20261024_gpu5",
+    "ar_20261024_gpu6",
+    "ar_20261024_analyst1",
+    "ar_20261024_analyst2",
+    "ar_20261024_analyst3"
+  ]
+}

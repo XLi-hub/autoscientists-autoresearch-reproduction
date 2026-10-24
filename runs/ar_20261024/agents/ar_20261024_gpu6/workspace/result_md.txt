@@ -1,0 +1,72 @@
+---
+exp_id: exp_cap_head_dim_64
+agent: ar_20261024_gpu6
+team: capacity
+axis: head_dim
+direction: decrease
+value: 64
+current_value: 128
+base: exp_tput_batch_2e17
+metric_name: val_bpb
+metric_value: 1.096009
+delta: +0.007723
+outcome: DISCARD
+timestamp: 2026-10-24T08:00:15.111964+00:00
+---
+
+# exp_cap_head_dim_64: HEAD_DIM 128 -> 64 (n_head 4 -> 8) — DISCARD
+
+## Experiment
+One change vs champion `exp_tput_batch_2e17` (val_bpb 1.088286):
+
+```python
+HEAD_DIM = 64   # was 128
+```
+
+At DEPTH 8 / ASPECT_RATIO 64 this keeps `model_dim = ((512 + 63)//64)*64 = 512` and moves
+`n_head` 4 -> 8, `head_dim` 128 -> 64. Attention FLOPs are unchanged (`h*q = 512` either way);
+params change only in `ve_gate` (`nn.Linear(32, n_kv_head)`, 4 VE layers): +512, exactly as
+predicted in gpu3's [GPU-REVIEW] on the proposal. This is a **step-neutral** representational
+probe — it isolates head granularity from step count.
+
+## Result
+- **val_bpb = 1.096009** vs champion 1.088286 -> **delta +0.007723 (worse)**
+- |delta| = 2.70 sigma (sigma = 0.002865, 2-sigma = 0.00573) -> **outside the
+  noise band**: a real, if modest, regression. No second seed needed.
+- Outcome: **DISCARD**. Champion unchanged at 1.088286.
+- Steps 948 vs 956 (-0.8%): the "zero-FLOP" prediction held — the change is effectively step-neutral.
+- tok/s 408.5K vs 411.3K (-0.7%): flash-attn3 at head_dim 64 is very slightly slower, as gpu3's
+  caveat warned; there is no throughput win to offset the quality loss.
+- Params 41.9M vs 41.94M (+512 ve_gate scalars, as predicted). Peak VRAM 19,176 MB.
+- Total 483.6s (training 300.1s). Startup+eval was ~100s longer than the champion run because
+  max-autotune re-benchmarks the new 8-head attention bmm shapes; steady-state tok/s is unaffected.
+
+## Training Dynamics
+| progress | step | smooth loss |
+|---|---|---|
+| 0% | 0 | 9.0111 |
+| 20% | 189 | 3.7344 |
+| 40% | 378 | 3.4668 |
+| 60% | 568 | 3.2894 |
+| 80% | 757 | 3.1504 |
+| 100% | 947 | 3.0748 |
+
+Final-20% loss drop = 0.0756 = **1.24% of range** — just above the 1.01% plateau threshold seen at
+1854 steps, so the model is mildly undertrained but close to flat. Loss tracks the 1.088 champion
+runs; the val_bpb gap is a per-step-quality gap, not a training-dynamics anomaly.
+
+## Interpretation (capacity hypothesis lens)
+At a fixed step count (948 vs 956), halving head_dim and doubling head count costs +0.0077 bpb.
+Two confounded mechanisms, both plausibly harmful at this width:
+1. **Rotary granularity:** `_precompute_rotary_embeddings` halves the rotary channels 64 -> 32
+   (lowest inv_freq 1.1e-4 -> 1.4e-4; longest wavelength still > 2048, so this is granularity, not
+   a loss of long-range reach).
+2. **Smaller per-head subspace:** 8 heads of 64 vs 4 heads of 128 at width 512.
+
+The capacity team's hypothesis (more capacity/structure helps) is **not** supported here in the
+"more heads" direction — but this is a representational-granularity result, not a capacity result
+(params moved by 0.001%). Practical read: **keep HEAD_DIM=128**. The axis now has n=1 in the
+decrease direction; the increase direction (head_dim 256, n_head 2) stays cold and is a priori risky.
+
+## Team
+capacity

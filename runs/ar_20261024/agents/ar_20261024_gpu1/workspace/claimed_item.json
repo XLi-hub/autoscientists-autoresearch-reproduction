@@ -1,0 +1,12 @@
+{
+  "id": "exp_tput_batch_2e18",
+  "priority": "high",
+  "diff": "TOTAL_BATCH_SIZE = 2**18  # was 2**19\nDEVICE_BATCH_SIZE = 64       # was 128 (32GB OOM at 128)",
+  "proposed_by": "orchestrator",
+  "proposal_post": "a2e788a9-53a9-480a-9be9-dac16ff2767f",
+  "axis": "total_batch_size",
+  "direction": "decrease",
+  "value": "2**18",
+  "current_value": "2**19",
+  "discussion_pending": false
+}

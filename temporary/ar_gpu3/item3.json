@@ -1,0 +1,15 @@
+{
+  "id": "exp_cap_ar48_mlp2",
+  "priority": "high",
+  "bold_bet": false,
+  "diff": "MLP_EXPANSION = 2  # was 3; on top of exp_cap_ar48_w384 (AR48, width 384). Restores exp_tput_mlp_exp_2 KEEP.",
+  "axis": "mlp_expansion",
+  "direction": "decrease",
+  "value": 2,
+  "current_value": 3,
+  "proposed_by": "ar_20261024_gpu3",
+  "proposal_post": "8c2498d6-fa0a-4f5d-a9ff-ffbf47e6a244",
+  "base": "exp_cap_ar48_w384",
+  "discussion_pending": false,
+  "note": "self-designed lineage repair: AR48 promotion replaced a MLP2 champion base with MLP3"
+}

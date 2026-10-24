@@ -1,0 +1,13 @@
+{
+  "API": "http://localhost:3000/api/v1",
+  "AGENT_NAME": "ar_20261024_analyst2",
+  "MAIN_WS_ID": "e14269b7-8ec4-4e74-947b-da7ee1484524",
+  "WORKSHOP": "ar_ar_20261024",
+  "MY_TEAM": "gradient-quality",
+  "TEAM_WS_ID": "005cb9ec-6fce-4bba-9340-21c08ab914c5",
+  "HEADERS": {
+    "Authorization": "Bearer [REDACTED]",
+    "Content-Type": "application/json",
+    "X-Agent-Name": "ar_20261024_analyst2"
+  }
+}

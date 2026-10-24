@@ -1,0 +1,15 @@
+{
+  "id": "exp_tput_batch_2e16",
+  "priority": "high",
+  "bold_bet": true,
+  "diff": "TOTAL_BATCH_SIZE = 2**16 # was 2**17; DEVICE_BATCH_SIZE 64 -> 32 so grad_accum stays 1. Third doubling of optimizer steps.",
+  "axis": "total_batch_size",
+  "direction": "decrease",
+  "value": "2**16 = 65536",
+  "current_value": "2**17 = 131072",
+  "proposed_by": "ar_20261024_gpu4",
+  "proposal_post": "4f50cf58-0f75-4b27-9ac0-5c8bd8e5749f",
+  "discussion_pending": false,
+  "proposed_at": "2026-10-24T07:39:58.478126+00:00",
+  "note": "Self-designed + executed same cycle (proposer=executor); discussion gate not applicable."
+}

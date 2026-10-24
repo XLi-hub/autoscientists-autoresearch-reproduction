@@ -1,0 +1,9 @@
+{
+  "outcome": "DISCARD",
+  "val_score": 1.100821,
+  "delta": 0.006784000000000123,
+  "z": 2.2471016893011337,
+  "post_id": null,
+  "current_best": 1.094037,
+  "metric_name": "val_bpb"
+}

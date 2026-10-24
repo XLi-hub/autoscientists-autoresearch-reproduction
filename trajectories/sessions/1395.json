@@ -1,0 +1,25 @@
+{
+  "pid": 1395,
+  "sessionId": "82136335-4b1d-419b-ac36-d8c4dbd9b0be",
+  "cwd": "/root/autodl-tmp/AutoScientists",
+  "startedAt": 1792823882920,
+  "procStart": "1106078574",
+  "version": "2.1.308",
+  "peerProtocol": 1,
+  "peerFeatures": [
+    "notify_idle",
+    "reply_across_default_dirs",
+    "artifact_yield"
+  ],
+  "kind": "interactive",
+  "entrypoint": "cli",
+  "pidDomain": "linux:6a355044367944a68e78a5afc1663ef8:pid:[4026540124]",
+  "tmux": "ar_20261024:@0.%0",
+  "messagingSocketPath": "/tmp/cc-socks/1395.sock",
+  "name": "autoscientists-7f",
+  "nameSource": "derived",
+  "nameSince": 1792823882920,
+  "status": "idle",
+  "updatedAt": 1792832244831,
+  "statusUpdatedAt": 1792832244831
+}

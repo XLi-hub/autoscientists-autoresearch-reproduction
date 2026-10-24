@@ -1,0 +1,13 @@
+{
+  "id": "exp_tput_mlp_exp_3",
+  "priority": "high",
+  "bold_bet": true,
+  "diff": "MLP_EXPANSION = 3  # was 4 (implicit `4 * config.n_embd`); use MLP_EXPANSION in MLP.c_fc and c_proj. -10.5% FLOPs/token, -8.3% params.",
+  "axis": "mlp_expansion",
+  "direction": "decrease",
+  "value": 3,
+  "current_value": 4,
+  "proposed_by": "ar_20261024_analyst1",
+  "proposal_post": "40efd6b0-02da-4550-a6f4-4079facb2bb3",
+  "discussion_pending": true
+}

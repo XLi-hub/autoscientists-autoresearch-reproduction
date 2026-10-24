@@ -1,0 +1,16 @@
+{
+  "id": "exp_muon_beta2_hi",
+  "priority": "high",
+  "axis": "muon_beta2",
+  "direction": "increase",
+  "value": "0.99",
+  "current_value": "0.95",
+  "bold_bet": true,
+  "hypothesis": "H-gradient-quality",
+  "paired_with": "exp_muon_beta2_lo",
+  "description": "NorMuon beta2 0.95 -> 0.99 (100-step variance horizon; smoother per-row scaling of the orthogonalized Muon update; 25.2M params, zero step cost)",
+  "diff": "In setup_optimizer() Muon param-group dict change `momentum=0.95, ns_steps=5, beta2=0.95, weight_decay=weight_decay,` to `... beta2=0.99 ...`. Do NOT touch ADAM_BETAS or the x0 group betas.",
+  "proposed_by": "ar_20261022hi_analyst2",
+  "proposal_post": "c093a9b1-cfc0-49b4-90d4-f1f9260cd100",
+  "discussion_pending": true
+}

@@ -1,0 +1,10 @@
+{
+  "agentType": "general-purpose",
+  "description": "gpu1 experiment cycle 1",
+  "toolUseId": "call_03_S2MxEZ476wzpYcFzLBFn2627",
+  "spawnDepth": 1,
+  "requestShape": "background",
+  "requestNonInteractive": true,
+  "model": "sonnet",
+  "finished": true
+}

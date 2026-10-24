@@ -1,0 +1,18 @@
+{
+  "id": "exp_cap_ve_density_2_seed43",
+  "priority": "high",
+  "bold_bet": true,
+  "diff": "has_ve(): return layer_idx % 4 == (n_layer - 1) % 4   # was % 2 == (n_layer-1) % 2. VE layers 4->2 (layers 3,7). -8.39M params (-18.2%), 0% FLOPs, step-neutral. + seed 42->43 (torch.manual_seed/cuda.manual_seed, lines 459-460). Pre-registered Step 7.0 second seed because |delta|=0.003978 < 0.006.",
+  "axis": "value_embedding_density",
+  "direction": "decrease",
+  "value": "2 VE layers (seed 43)",
+  "current_value": "4 VE layers",
+  "proposed_by": "ar_20261024_analyst3",
+  "proposal_post": "b73e767e-5f62-47a9-9e10-8c5dd5834159",
+  "discussion_pending": false,
+  "rebase_note": "capacity isolation control: step count fixed by construction. Requires seed-43 confirmation if |delta|<0.006.",
+  "gate_cleared_by": "ar_20261024_analyst3 2026-10-24T08:56Z (non-author comments already on the proposal: b73e767e/8ae47cab, bd502af4/231ed006+dfc1d34e, b98dfae7/7e958faa+79adc1ae)",
+  "base": "exp_tput_batch_2e17",
+  "expected": "params 41.94M->33.55M (-20.0%), FLOPs/token unchanged 1.8874e8, steps ~956 (step-neutral)",
+  "confirmation_of": "exp_cap_ve_density_2"
+}

@@ -1,0 +1,40 @@
+{
+  "status": "posted",
+  "posted_to_workshop": true,
+  "exp_id": "exp_gq_weight_decay_hi",
+  "agent": "ar_20261024_gpu11",
+  "item": {
+    "id": "exp_gq_weight_decay_hi",
+    "axis": "weight_decay",
+    "direction": "increase",
+    "value": 0.4,
+    "current_value": 0.2,
+    "priority": "high",
+    "bold_bet": true,
+    "diff": "WEIGHT_DECAY = 0.4 (was 0.2), train.py:444, single token",
+    "proposal_post": "55aa397c-2b77-4c20-90e5-e9b285ad3491",
+    "proposed_by": "ar_20261024_analyst2",
+    "diff_applied": true,
+    "noise_gate": "second seed if |delta|<0.006",
+    "why": "sole decisive test of the re-scoped gq team hypothesis (TEAM-REFORMED 5e7449da)"
+  },
+  "queue_claimed": true,
+  "direction": "minimize",
+  "val_score": 1.090118,
+  "submission_path": "/root/autodl-tmp/ar_20261024/agents/ar_20261024_gpu11/workspace/repo/submission_exp_gq_weight_decay_hi.csv",
+  "train_path": "/root/autodl-tmp/ar_20261024/agents/ar_20261024_gpu11/workspace/repo/train_exp_gq_weight_decay_hi.py",
+  "stdout_path": "/root/autodl-tmp/ar_20261024/agents/ar_20261024_gpu11/workspace/train_exp_gq_weight_decay_hi.stdout",
+  "stderr_path": "/root/autodl-tmp/ar_20261024/agents/ar_20261024_gpu11/workspace/train_exp_gq_weight_decay_hi.stderr",
+  "pid": 482981,
+  "monitor_id": null,
+  "description": "WEIGHT_DECAY 0.2 -> 0.4 at fixed MATRIX_LR (hi arm of the 3-point WD bracket; completes the gq team's falsification test)",
+  "launched_at": "2026-10-24T08:43:11.429026+00:00",
+  "seed_values": [
+    1.089911,
+    1.090324
+  ],
+  "outcome": "DISCARD",
+  "result_post_id": null,
+  "posted_at": "2026-10-24T08:56:18.486773+00:00",
+  "delta_vs_champion": 0.001831
+}

@@ -1,0 +1,15 @@
+{
+  "id": "exp_ve_all_layers",
+  "description": "Value embeddings on ALL layers (+33% params, ~zero per-step FLOPs)",
+  "priority": "high",
+  "bold_bet": true,
+  "axis": "value_embedding_layers",
+  "direction": "increase",
+  "value": "all layers",
+  "current_value": "alternating (4 of 8)",
+  "diff": "In train.py replace `def has_ve(layer_idx, n_layer): return layer_idx % 2 == (n_layer - 1) % 2` with `return True`.",
+  "proposed_by": "ar_20261022hi_analyst3",
+  "proposal_post": "71626ca8-6b48-4e07-9b50-74646bc3a3c6",
+  "proposed_at": "2026-10-22T10:52:07.887654+00:00",
+  "discussion_pending": true
+}

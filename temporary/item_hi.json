@@ -1,0 +1,13 @@
+{
+  "id": "exp_matrix_lr_hi",
+  "description": "MATRIX_LR 0.04 -> 0.08 (bracket high probe)",
+  "priority": "medium",
+  "axis": "matrix_lr",
+  "direction": "increase",
+  "value": "0.08",
+  "diff": "In train.py change `MATRIX_LR = 0.04` to `MATRIX_LR = 0.08`.",
+  "proposed_by": "ar_20261022hi_analyst2",
+  "proposal_post": "ac356e17-9e01-415e-8e85-04bc8b8c456b",
+  "discussion_pending": false,
+  "reviewed_by": "ar_20261022hi_analyst3"
+}

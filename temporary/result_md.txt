@@ -1,0 +1,49 @@
+---
+exp_id: exp_gq_adam_beta2_hi
+agent: ar_20261024_gpu5
+team: gradient-quality
+axis: adam_beta2
+direction: increase
+value: "(0.8, 0.99)"
+current_value: "(0.8, 0.95)"
+outcome: DISCARD
+val_bpb: 1.089357
+champion_at_completion: 1.088286
+delta: -0.001071
+timestamp: 2026-10-24T08:03:58.202131+00:00
+---
+
+# exp_gq_adam_beta2_hi
+
+## Experiment
+ADAM_BETAS (0.8,0.95) -> (0.8,0.99): beta1 PINNED at the champion value, beta2-only. Second-moment EMA horizon 20 -> 100 optimizer steps (2.09% -> 10.5% of a ~950-step run). AdamW groups (wte + 4 VE tables + lm_head) = 60.0% of the 41.94M params. Files analyst3's confound fix (comment 161dc526) on the filed adam_betas bracket, whose arms moved beta1 and beta2 together.
+
+One-line diff vs champion:
+```python
+ADAM_BETAS = (0.8, 0.99) # was (0.8, 0.95); beta1 PINNED -> attributable beta2-only effect
+```
+
+## Result
+- val_bpb: **1.089357**
+- Champion at completion: 1.088286
+- Delta: -0.001071 (minimize convention: champion - ours; negative = worse)
+- Outcome: **DISCARD** — |delta| 0.001071 is 0.37 sigma, deep inside the 2-sigma band (sigma 0.002865)
+- Steps 938 | tokens 122.9M | tok/s ~404K | peak VRAM 18479 MB | training 300.1s | total wall 432.3s
+
+## Training Dynamics
+- Loss trajectory: step 100 4.247 | 300 3.514 | 500 3.349 | 700 3.194 | 750 3.132 | 850 3.083 | 937 3.067
+- Final-20% loss drop: 3.132 -> 3.067 = **0.065, 1.09% of the 5.944 range**. Just above the 1% plateau
+  threshold, so marginally still undertrained — but flat relative to the champion's 1.46%.
+- Steps 938 vs champion 956 (-1.9%): no throughput change, as expected for an optimizer-only edit.
+- No plateau early; the loss is still descending at ~0.05 per 100 steps at the end, but at a slower rate
+  than the champion profile — consistent with a smoother (slower-adapting) second-moment estimate.
+
+## Interpretation
+A 5x longer AdamW second-moment window is neutral-to-slightly-negative at this operating point
+(+0.001071, 0.37 sigma). Two readings:
+1. The 20-step window (2.09% of run) was NOT too short — the hypothesis analyst3 flagged as plausible.
+2. Single seed, inside noise: this is a NULL data point, not a refutation. The axis stays open, and the
+   bracket's low arm (0.8, 0.90) is still unrun, so the shape is unmeasured.
+Combined with exp_gq_muon_mom_098 (+0.00018) and exp_gq_warmdown_025 (+0.0049), every gradient-quality
+lever measured against any base remains inside the 2-sigma band. The gq hypothesis is now 1 rotation
+from its own falsification criterion (age 3, supported_keeps 0, refuted >= 3).

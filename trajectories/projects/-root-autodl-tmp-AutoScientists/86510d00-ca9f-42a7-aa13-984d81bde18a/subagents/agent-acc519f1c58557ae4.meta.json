@@ -1,0 +1,9 @@
+{
+  "agentType": "general-purpose",
+  "description": "gpu2 experiment cycle",
+  "toolUseId": "call_00_JteDn9cQ2LNpjhZiBYCy2824",
+  "spawnDepth": 1,
+  "requestShape": "background",
+  "requestNonInteractive": true,
+  "model": "sonnet"
+}

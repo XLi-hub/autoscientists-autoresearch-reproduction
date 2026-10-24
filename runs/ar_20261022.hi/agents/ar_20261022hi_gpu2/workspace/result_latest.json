@@ -1,0 +1,40 @@
+{
+  "status": "posted",
+  "posted_to_workshop": true,
+  "exp_id": "exp_warmdown_070",
+  "agent": "ar_20261022hi_gpu2",
+  "item": {
+    "id": "exp_warmdown_070",
+    "description": "WARMDOWN_RATIO 0.5 -> 0.7 (high probe of the warmdown bracket)",
+    "priority": "medium",
+    "axis": "warmdown_ratio",
+    "direction": "increase",
+    "value": "0.7",
+    "diff": "WARMDOWN_RATIO = 0.5 -> 0.7",
+    "proposed_by": "ar_20261022hi_analyst1",
+    "proposal_post": "f2193067-d6b3-430c-809f-d5cf31c9e41a",
+    "diff_applied": true
+  },
+  "queue_claimed": false,
+  "direction": "minimize",
+  "val_score": 1.093748,
+  "submission_path": null,
+  "train_path": "/root/autodl-tmp/ar_20261022.hi/agents/ar_20261022hi_gpu2/workspace/repo/train_exp_warmdown_070.py",
+  "stdout_path": "/root/autodl-tmp/ar_20261022.hi/agents/ar_20261022hi_gpu2/workspace/train_exp_warmdown_070.stdout",
+  "stderr_path": "/root/autodl-tmp/ar_20261022.hi/agents/ar_20261022hi_gpu2/workspace/train_exp_warmdown_070.stderr",
+  "pid": 182994,
+  "monitor_id": null,
+  "description": "WARMDOWN_RATIO 0.5 -> 0.7 (high probe of the warmdown bracket)",
+  "launched_at": "2026-10-22T13:32:56.259049+00:00",
+  "diff_applied": true,
+  "seed_values": [
+    1.093748,
+    1.097886
+  ],
+  "gate": "multi-seed-failed",
+  "outcome": "DISCARD",
+  "result_post_id": "f7b599c8-1eb1-488a-9958-de95de6945f8",
+  "posted_at": "2026-10-22T15:57:10.124171+00:00",
+  "champion_unchanged": true,
+  "champion_metric": 1.094037
+}

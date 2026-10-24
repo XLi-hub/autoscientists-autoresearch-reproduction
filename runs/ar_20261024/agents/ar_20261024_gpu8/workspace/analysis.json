@@ -1,0 +1,54 @@
+{
+  "exp_id": "exp_cal_champion_seed43",
+  "log": "/root/autodl-tmp/ar_20261024/agents/ar_20261024_gpu8/workspace/train_exp_cal_champion_seed43.stdout",
+  "summary": {
+    "val_bpb": 1.090998,
+    "training_seconds": 300.1,
+    "total_seconds": 376.0,
+    "peak_vram_mb": 18479.4,
+    "mfu_percent": 7.73,
+    "total_tokens_M": 122.9,
+    "num_steps": 938.0,
+    "num_params_M": 41.9,
+    "depth": 8.0
+  },
+  "n_logged_steps": 938,
+  "first_step": {
+    "step": 0,
+    "pct": 0.0,
+    "loss": 9.010905,
+    "lrm": 1.0,
+    "dt_ms": 29280.0,
+    "tok_per_sec": 4476,
+    "mfu": 0.1
+  },
+  "last_step": {
+    "step": 937,
+    "pct": 99.9,
+    "loss": 3.071969,
+    "lrm": 0.0,
+    "dt_ms": 324.0,
+    "tok_per_sec": 404957,
+    "mfu": 7.7
+  },
+  "dynamics": {
+    "definition_primary": "loss_smooth(step>=0.80*N) - loss_smooth(final step)",
+    "step_at_80pct_index": 750,
+    "step_at_80pct": 750,
+    "loss_at_80pct": 3.134956,
+    "loss_final": 3.071969,
+    "final20_drop": 0.06298699999999968,
+    "final20_drop_rel_pct": 2.0091829040024702,
+    "mean_loss_80_90": 3.1111756489361695,
+    "mean_loss_90_100": 3.0714781702127647,
+    "final10_of_20_drop": 0.03969747872340479,
+    "loss_range_abs": 6.102106999999999,
+    "final20_drop_pct_of_range": 1.032217232506734,
+    "tok_per_sec_steady_mean": 404846.14778856526,
+    "tok_per_sec_last": 404957,
+    "pct_done_at_last": 99.9,
+    "N_steps_last_logged": 937
+  },
+  "champion_metric": 1.088286,
+  "delta_vs_champion": 0.0027119999999998257
+}

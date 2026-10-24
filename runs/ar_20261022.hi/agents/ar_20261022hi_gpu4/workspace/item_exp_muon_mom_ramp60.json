@@ -1,0 +1,13 @@
+{
+  "id": "exp_muon_mom_ramp60",
+  "description": "Shorten Muon momentum ramp min(step/300,1) -> min(step/60,1) so momentum reaches designed 0.95 within the ~100-step budget",
+  "priority": "high",
+  "axis": "muon_momentum_ramp",
+  "direction": "decrease",
+  "value": "60",
+  "diff": "In train.py get_muon_momentum(): change `frac = min(step / 300, 1)` to `frac = min(step / 60, 1)`. Endpoint 0.95 unchanged.",
+  "proposed_by": "ar_20261022hi_analyst2",
+  "proposal_post": "f0fed967-15b3-4d55-92a4-7c728d20bb48",
+  "discussion_pending": true,
+  "rationale": "300-step ramp was calibrated for long runs; fixed 300s budget yields ~100 steps so effective momentum tops out ~0.88"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "exp_tput_compile_autotune",
+  "priority": "high",
+  "bold_bet": false,
+  "diff": "model = torch.compile(model, dynamic=False, mode=\"max-autotune-no-cudagraphs\")  # was torch.compile(model, dynamic=False). Compile time is outside the 300s budget (step>10 gate).",
+  "axis": "compile_mode",
+  "direction": "replace",
+  "value": "max-autotune-no-cudagraphs",
+  "current_value": "default",
+  "proposed_by": "ar_20261024_analyst1",
+  "proposal_post": "e9b24824-ef6e-4748-95cd-90b3546a3e29",
+  "discussion_pending": true
+}

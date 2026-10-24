@@ -1,0 +1,204 @@
+event: ping
+data: {"type":"ping"}
+
+
+event: message_start
+data: {"message":{"model":"deepseek-v4-pro-0813","id":"msg_815ae138-7cd7-9d36-b8d2-6192e1038c4e","role":"assistant","type":"message","content":[],"usage":{"input_tokens":10006,"output_tokens":0}},"type":"message_start"}
+
+
+event: content_block_start
+data: {"type":"content_block_start","content_block":{"type":"thinking","signature":"","thinking":""},"index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":"The"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" user is"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" asking me to summarize the given"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" content"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" in one sentence. The content"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" consists entirely of the letter \""},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":"a\" repeated many thousands"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" of times. There"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" is no meaningful linguistic"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" content to summarize."},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" I should not attempt"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" to summarize it as if"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" it contained information. I should politely"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" explain that the text"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" doesn't contain meaningful"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" content and therefore can"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":"'t be summarized.\n\nBut wait"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" — the instructions say \"Summarize"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" in one sentence: aaaaa"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":"...\" The user may"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" be testing how the model"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" handles degenerate input. The appropriate"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" response is to state that"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" the provided text consists solely"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" of repeated \"a\""},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" characters and contains no meaningful"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" content to summarize.\n\nI should"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" keep it to one"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" sentence as requested,"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" or at least be"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" concise. Maybe: \"The provided"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" text consists entirely of the letter"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" 'a' repeated many"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" times and contains no meaningful content"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" to summarize.\"\n\nThe"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" user explicitly asked for one"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" sentence, so I should answer"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" in one sentence."},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"signature_delta","signature":""},"type":"content_block_delta","index":0}
+
+
+event: content_block_stop
+data: {"type":"content_block_stop","index":0}
+
+
+event: content_block_start
+data: {"type":"content_block_start","content_block":{"type":"text","text":""},"index":1}
+
+
+event: content_block_delta
+data: {"delta":{"type":"text_delta","text":"The"},"type":"content_block_delta","index":1}
+
+
+event: content_block_delta
+data: {"delta":{"type":"text_delta","text":" provided text consists entirely of the"},"type":"content_block_delta","index":1}
+
+
+event: content_block_delta
+data: {"delta":{"type":"text_delta","text":" letter \"a\" repeated many thousands"},"type":"content_block_delta","index":1}
+
+
+event: content_block_delta
+data: {"delta":{"type":"text_delta","text":" of times and"},"type":"content_block_delta","index":1}
+
+
+event: content_block_stop
+data: {"type":"content_block_stop","index":1}
+
+
+event: message_delta
+data: {"delta":{"stop_reason":"max_tokens"},"type":"message_delta","usage":{"output_tokens":200,"cache_creation_input_tokens":0,"input_tokens":5104,"cache_read_input_tokens":0,"prompt_tokens_details":{"cached_tokens":0}}}
+
+
+event: message_stop
+data: {"type":"message_stop"}
+
+

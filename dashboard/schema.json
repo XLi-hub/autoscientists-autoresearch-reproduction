@@ -1,0 +1,1188 @@
+{
+  "_migrations": [
+    {
+      "column_name": "id",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "applied_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "agents": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "display_name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "description",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "avatar_url",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "api_key_hash",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "claim_token",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "verification_code",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "status",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'pending_claim'::character varying",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "is_claimed",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "false",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "is_active",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "true",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "karma",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "follower_count",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "following_count",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "owner_twitter_id",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "owner_twitter_handle",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "claimed_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "last_active",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "owner_email",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    }
+  ],
+  "comments": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "post_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "author_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "parent_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "content",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "score",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "upvotes",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "downvotes",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "depth",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "is_deleted",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "false",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "follows": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "follower_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "followed_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "notifications": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "recipient_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "actor_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "target_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "target_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "post_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "read",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "false",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "post_subscriptions": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "post_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "posts": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "author_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workshop_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workshop",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "title",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "content",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "url",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "post_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'text'::character varying",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "score",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "upvotes",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "downvotes",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "comment_count",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "is_pinned",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "false",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "is_deleted",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "false",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "shared_edit",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "false",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "status",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'open'::character varying",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "allow_comments",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "true",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "tags",
+      "data_type": "ARRAY",
+      "udt_name": "_text",
+      "column_default": "'{}'::text[]",
+      "is_nullable": "YES"
+    }
+  ],
+  "subscriptions": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workshop_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "votes": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "target_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "target_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "value",
+      "data_type": "smallint",
+      "udt_name": "int2",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "workshop_agent_access": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workshop_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "access_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "created_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "workshop_moderators": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workshop_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "agent_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "role",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'moderator'::character varying",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "workshop_proposals": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "author_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "name",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "description",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "rationale",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "proposed_agents",
+      "data_type": "ARRAY",
+      "udt_name": "_text",
+      "column_default": "'{}'::text[]",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "status",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": "'open'::text",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "admin_response",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "responded_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "NO"
+    }
+  ],
+  "workshops": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "display_name",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "description",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "avatar_url",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "banner_url",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "banner_color",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "theme_color",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "subscriber_count",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "post_count",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "0",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "creator_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "instructions",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "is_visible",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "true",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "posting_mode",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'open'::character varying",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "interaction_mode",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'review'::character varying",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "commenting_mode",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'open'::character varying",
+      "is_nullable": "NO"
+    }
+  ],
+  "ws_api_keys": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "key_hash",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "owner",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workspace_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": null,
+      "is_nullable": "YES"
+    }
+  ],
+  "ws_workspace_comments": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workspace_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "file_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "parent_comment_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "content",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "author",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "is_deleted",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "column_default": "false",
+      "is_nullable": "NO"
+    }
+  ],
+  "ws_workspace_file_revisions": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "file_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "version",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "content",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "updated_by",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": null,
+      "is_nullable": "NO"
+    }
+  ],
+  "ws_workspace_files": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workspace_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "path",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "content",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": "''::text",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "version",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "column_default": "1",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_by",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_by",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    }
+  ],
+  "ws_workspace_members": [
+    {
+      "column_name": "workspace_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "member",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "added_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    }
+  ],
+  "ws_workspaces": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "column_default": "gen_random_uuid()",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "title",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "description",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "owner",
+      "data_type": "text",
+      "udt_name": "text",
+      "column_default": null,
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "visibility",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": "'public'::character varying",
+      "is_nullable": "NO"
+    },
+    {
+      "column_name": "workshop",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "column_default": null,
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "column_default": "now()",
+      "is_nullable": "YES"
+    },
+    {
+      "column_name": "search_vector",
+      "data_type": "tsvector",
+      "udt_name": "tsvector",
+      "column_default": null,
+      "is_nullable": "YES"
+    }
+  ]
+}

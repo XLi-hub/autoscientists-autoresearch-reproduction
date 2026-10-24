@@ -1,0 +1,1003 @@
+
+====================================================================================================
+### queue.md (ws=005cb9ec) version=9
+---
+claims: {}
+pending:
+- id: exp_gq_muon_ramp_progress
+  priority: high
+  bold_bet: true
+  diff: "def get_muon_momentum(progress):\n    frac = min(progress / 0.3, 1)\n   \
+    \ return (1 - frac) * 0.85 + frac * 0.95\n...\nmuon_momentum = get_muon_momentum(progress)\
+    \  # call site: was get_muon_momentum(step)"
+  proposed_by: ar_20261024_analyst2
+  proposal_post: dda6b065-6581-4931-b1db-8ce958540e30
+  axis: muon_momentum_ramp
+  direction: replace
+  value: progress/0.3
+  current_value: step/300
+  discussion_pending: true
+  paper: null
+  rebase_note: 'Current champion runs 433 optimizer steps/300s, so the step-based
+    ramp min(step/300,1) reaches terminal momentum at 69% of the run (upstream intent:
+    ~31%). This fix is now a LARGER perturbation than when filed: it reaches 0.95
+    at progress=0.3 (step ~130) instead of step 300. Diff unchanged and still applies
+    to champion line 528-530/558.'
+- id: exp_gq_adam_betas_lo
+  priority: high
+  bold_bet: true
+  diff: 'ADAM_BETAS = (0.7, 0.90)   # was (0.8, 0.95); bracket low arm, affects ~54%
+    of weights'
+  proposed_by: ar_20261024_analyst2
+  proposal_post: 63601f5a-5a16-4362-be7e-f6a0a6a1039d
+  axis: adam_betas
+  direction: decrease
+  value: (0.7, 0.90)
+  current_value: (0.8, 0.95)
+  bracket: adam_betas_3pt_low
+  discussion_pending: true
+  paper: null
+- id: exp_gq_adam_betas_hi
+  priority: high
+  bold_bet: true
+  diff: 'ADAM_BETAS = (0.9, 0.99)   # was (0.8, 0.95); bracket high arm, restores
+    step-count-scaled EMA horizon'
+  proposed_by: ar_20261024_analyst2
+  proposal_post: 63601f5a-5a16-4362-be7e-f6a0a6a1039d
+  axis: adam_betas
+  direction: increase
+  value: (0.9, 0.99)
+  current_value: (0.8, 0.95)
+  bracket: adam_betas_3pt_high
+  discussion_pending: true
+  paper: null
+- id: exp_gq_warmdown_075
+  priority: medium
+  bold_bet: false
+  diff: 'WARMDOWN_RATIO = 0.75  # was 0.5'
+  proposed_by: ar_20261024_analyst2
+  proposal_post: 2be7ed75-5a59-4b60-9c3c-913a6705160d
+  axis: warmdown_ratio
+  direction: increase
+  value: 0.75
+  current_value: 0.5
+  bracket: warmdown_ratio_3pt_high
+  discussion_pending: true
+  paper: null
+  rebase_note: Opposite arm of the 0.25/0.75 bracket. The 0.25 arm landed +0.0049
+    (inside 2-sigma) on the pre-compile base; this arm completes the 3-point bracket
+    but is lower expected value on an undertrained base. Run after the adam-beta bracket
+    and MLP-2x.
+completed:
+- id: exp_gq_muon_mom_098
+  priority: high
+  diff: "def get_muon_momentum(step):\n    frac = min(step / 300, 1)\n    return (1\
+    \ - frac) * 0.85 + frac * 0.98  # was ... + frac * 0.95"
+  proposed_by: orchestrator
+  proposal_post: c0f6c228-eccf-488e-afb6-24b342684e02
+  axis: muon_momentum
+  direction: increase
+  value: 0.98
+  current_value: 0.95
+  discussion_pending: false
+  completed_at: '2026-10-24T07:11:03.343728+00:00'
+  completed_by: ar_20261024_gpu2
+  outcome: DISCARD
+  val_score: 1.192527
+  val_score_seed43: 1.188308
+  champion_at_completion: 1.158107
+  note: run on old base (TOTAL_BATCH 2**19); paired seed-42 effect +0.00018 (below
+    noise); confounded by base change
+- id: exp_gq_warmdown_025
+  priority: high
+  bold_bet: false
+  diff: 'WARMDOWN_RATIO = 0.25  # was 0.5'
+  proposed_by: ar_20261024_analyst2
+  proposal_post: 2be7ed75-5a59-4b60-9c3c-913a6705160d
+  axis: warmdown_ratio
+  direction: decrease
+  value: 0.25
+  current_value: 0.5
+  bracket: warmdown_ratio_3pt_low
+  discussion_pending: true
+  paper: null
+  completed_at: '2026-10-24T07:18:17.948095+00:00'
+  completed_by: ar_20261024_gpu2
+  outcome: DISCARD
+  val_score: 1.16297
+  champion_at_completion: 1.147892
+---
+
+
+
+# Experiment Queue
+
+# Cycle 2 (analyst2) note: exp_gq_mlp_exp_2 WITHDRAWN as a cross-team duplicate — analyst1 posted the identical experiment (throughput, e3c4b4fb) and gpu4 claimed it at 07:21Z. Run the throughput copy; do not double-run. The Step 1b2 different-mechanism requirement is satisfied by that thread plus the analysis on the KEEP thread.
+
+
+====================================================================================================
+### strategy.md (ws=005cb9ec) version=4
+---
+hypothesis: Gradient signal per optimizer step is suboptimal; changes that reduce
+  gradient noise or improve update direction (optimizer geometry, momentum, normalization,
+  LR schedule shape) will lower val_bpb.
+prediction: Experiments changing Muon/Adam betas, momentum ramp, LR ratios, or norm
+  placement will KEEP beyond the noise band.
+falsification: 3 rotations of prediction-consistent gradient-quality experiments all
+  DISCARD.
+age_rotations: 2
+supported_keeps: 0
+refuted_discards: 2
+last_audited_by: ar_20261024_analyst2
+last_audited_at: '2026-10-24T07:23:30Z'
+---
+
+# Team gradient-quality
+
+**Hypothesis:** Gradient signal per optimizer step is suboptimal; changes that reduce gradient noise or improve update direction (optimizer geometry, momentum, normalization, LR schedule shape) will lower val_bpb.
+
+**Prediction:** Experiments changing Muon/Adam betas, momentum ramp, LR ratios, or norm placement will KEEP beyond the noise band.
+
+**Falsification:** 3 rotations of prediction-consistent gradient-quality experiments all DISCARD.
+
+Teams are hypothesis-based, not axis-based: any axis is in-scope if the hypothesis predicts it will KEEP.
+
+## Cycle 2 audit (analyst2, after champion moved 1.192708 -> 1.147892)
+
+**Hypothesis scorecard.** age_rotations 1 -> 2.
+- refuted_discards: 2 — exp_gq_muon_mom_098 (muon_momentum 0.98, prediction-named axis) and
+  exp_gq_warmdown_025 (LR schedule shape, prediction-named). Both are INSIDE the 2-sigma noise
+  band (0.0057): muon paired effect +0.00018, warmdown +0.00486. Counted as refutations because
+  the prediction said they would KEEP beyond noise, but they are WEAK evidence — do not treat
+  them as a mechanism failure yet.
+- supported_keeps: 0. No gq experiment has KEEPed.
+- Falsification is therefore 1 rotation away (age 3 with supported_keeps 0 and refuted >= 3).
+  If the adam-beta bracket returns two flat/DISCARD arms, the team hypothesis should be
+  re-scoped rather than defended.
+
+**What changed the operating point (Step 1b2).** All three KEEPs were throughput KEEPs and all
+three bought the same thing: more optimizer steps in the fixed 300 s budget (193 -> 374 -> 410
+-> 433). The 2**18 KEEP won while processing FEWER tokens (98.0M vs 101.2M), so the response is
+to update count, not token count. Every run is still undertrained (final-20% loss drop 2.3-2.6%
+of range, no plateau).
+
+**Consequence for gq: every step-count-coupled optimizer constant is now mis-scaled.**
+- `get_muon_momentum` still uses step/300. At 433 steps that reaches terminal momentum at step
+  300 = 69% of the run; the upstream-intended shape (300/953) is ~31%. exp_gq_muon_ramp_progress
+  is therefore MORE relevant than when filed and stays high priority.
+- AdamW betas (0.8, 0.95) have memory 1/(1-beta) in STEPS. The 2.24x step-count increase means
+  they now cover 2.24x less of training than when tuned. This is the largest re-opened gq lever;
+  filed as exp_gq_adam_betas_bracket (low (0.7,0.90) / high (0.9,0.99), champion midpoint).
+- Wall-clock-based schedules (LR multiplier, weight decay) are NOT rescaled by the step-count
+  change: they remain as tuned. Do not propose them as "step-scaled" fixes.
+
+**Step 1b2 follower.** exp_gq_mlp_exp_2 (MLP 3x -> 2x) carries the productive property forward
+through a different mechanism (cheaper tokens/step rather than fewer tokens/step). Confound:
+-9.1% capacity; the queued throughput 5x arm closes a 2/3/5 bracket.
+
+**Compute-budget audit (Step 1e).** Champion peak VRAM 22.6 GB / 32 GB = ~71% (at the 70%
+threshold); reported mfu_percent is H100-normalized (7.6%) and meaningless on a 4080S, and the
+binding resource is the 300 s wall-clock budget, which is 100% used. No mandatory scale-up probe;
+a scale-up would be anti-throughput at this operating point.
+
+**Queue (4 items).** high: exp_gq_muon_ramp_progress, exp_gq_adam_betas_lo, exp_gq_adam_betas_hi.
+medium: exp_gq_warmdown_075 (bracket-completion, low expected value). All are
+discussion_pending: true.
+
+**Cross-team dedup.** exp_gq_mlp_exp_2 (proposal 306479b7) was WITHDRAWN from this queue: analyst1
+posted the identical experiment (throughput e3c4b4fb) first and gpu4 claimed it at 07:21Z. The
+Step 1b2 requirement is satisfied by that thread plus my analysis comment on the KEEP thread.
+Cycle-2 proposals: 63601f5a (adam betas, queued) and 306479b7 (mlp 2x, withdrawn duplicate).
+
+
+====================================================================================================
+### dead_ends.md (ws=005cb9ec) version=4
+---
+count: 2
+updated_at: "2026-10-24T07:23:30Z"
+updated_by: ar_20261024_analyst2
+noise_floor_sigma: 0.002865
+noise_band_2sigma: 0.00573
+note: "Re-triaged 2026-10-24: both entries below are NOISE-CONTAMINATED — recorded |delta| is inside the
+  team's measured 2-sigma band, so neither axis is closed. Kept for institutional memory; see reasons."
+---
+
+# Dead Ends
+
+## NOISE-CONTAMINATED (axis remains open) — do not treat as closed
+
+- exp_id: exp_gq_muon_mom_098
+  axis: muon_momentum
+  direction: increase
+  value: 0.98
+  status: NOISE-CONTAMINATED — axis remains open
+  delta_vs_contemporaneous_base: +0.000181 (paired seed 42; |delta| is 32x below the 2-sigma band)
+  seeds: [1.192527 (s42), 1.188308 (s43)] on identical code -> seed swing 0.004219
+  family: exp_gq
+  date: 2026-10-24
+  reason: |
+    Single paired point, far inside the noise band => no measurable mechanism, therefore NOT a refutation.
+    Also stale: tested on the TOTAL_BATCH 2**19 base (~196 steps), where the step-based ramp only reached
+    frac 0.653. On the current 2**18 champion (433 steps) the ramp reaches terminal momentum at step 300
+    (69% of the run), so a retest would probe a strictly different regime. Do not re-queue the 0.98 target
+    until exp_gq_muon_ramp_progress lands (it changes the trajectory the target acts on).
+
+- exp_id: exp_gq_warmdown_025
+  axis: warmdown_ratio
+  direction: decrease
+  value: 0.25
+  status: NOISE-CONTAMINATED — axis remains open
+  delta_vs_contemporaneous_base: +0.004863 (1.162970 vs 1.158107; inside the 0.00573 2-sigma band)
+  family: exp_gq
+  date: 2026-10-24
+  reason: |
+    Single seed, inside noise, and no step-count gain (416 vs 410). Not a refutation of the axis.
+    The opposite arm (0.75) is still queued and completes the 3-point bracket. Axis stays open.
+
+
+====================================================================================================
+### knowledge/noise_floor.md (ws=005cb9ec) version=2
+---
+locked: false
+n_pairs: 3
+sigma: 0.002865
+near_miss_band_2sigma: 0.005730
+source: "measured (3 same-code repeat pairs, 2026-10-24)"
+updated_at: "2026-10-24T07:11:36.846870+00:00"
+---
+
+# Noise Floor (team gradient-quality)
+
+Three same-code repeat measurements now exist (details in main-workspace `knowledge/noise_floor_data.md`):
+
+| comparison | \|delta\| |
+|---|---|
+| pristine baseline, identical code+seed, GPU0 vs GPU1 | 0.003036 |
+| momentum-0.98 code, seed 42 vs 43, same GPU | 0.004219 |
+| batch-2**18 code, seed 42 (GPU0) vs 43 (GPU1) | 0.004716 |
+
+Pooled same-code sigma = **0.002865**, 2-sigma band = **0.00573**.
+
+Practical rule for the multi-seed gate: a single-seed improvement with |delta| < ~0.006 is NOT
+confirmed. Re-run a second seed before promoting. Deltas above ~0.006 are outside the band
+(the two KEEPs so far, 0.0234 and 0.0112, clear it).
+
+Caveat: pairs measure seed + GPU + run nondeterminism together. Seed-only variation is
+likely the larger component (pairs 2/3 vs pair 1).
+
+
+====================================================================================================
+### knowledge/noise_floor_data.md (ws=e14269b7) version=2
+---
+pairs:
+- metric_a: 1.192708
+  metric_b: 1.195744
+  abs_delta: 0.003036
+  code_hash: upstream+dbs64+total2**19+seed42
+  gpu_a: 1
+  gpu_b: 0
+  agents:
+  - ar_20261024_gpu2
+  - ar_20261024_gpu1
+  date: '2026-10-24'
+  note: identical code and seed, two identical GPUs; run-to-run hardware/kernel nondeterminism
+- metric_a: 1.192527
+  metric_b: 1.188308
+  abs_delta: 0.004219
+  code_hash: upstream+dbs64+total2**19+muon098(0.95->0.98)
+  gpu_a: 1
+  gpu_b: 1
+  agents:
+  - ar_20261024_gpu2
+  - ar_20261024_gpu2
+  date: '2026-10-24'
+  note: identical code, seed 42 vs 43 (same GPU). Momentum experiment's multi-seed
+    confirmation.
+- metric_a: 1.169258
+  metric_b: 1.164542
+  abs_delta: 0.004716
+  code_hash: upstream+dbs64+total2**18+mlpexp4
+  gpu_a: 0
+  gpu_b: 1
+  agents:
+  - ar_20261024_gpu1
+  - ar_20261024_gpu2
+  date: '2026-10-24'
+  note: identical code, seed 42 (GPU0) vs seed 43 (GPU1). Cross-GPU + cross-seed repeat.
+sigma_estimate: 0.002865
+n_pairs: 3
+updated_at: '2026-10-24T07:11:12.014756+00:00'
+updated_by: ar_20261024_gpu2
+---
+# Noise Floor Data
+
+Empirical same-code repeat measurements used by the multi-seed promotion gate.
+
+- pair 1: 1.192708 (GPU 1) vs 1.195744 (GPU 0), |delta| = 0.003036 — identical code and seed, two identical GPUs; run-to-run hardware/kernel nondeterminism
+- pair 2: 1.192527 (GPU 1) vs 1.188308 (GPU 1), |delta| = 0.004219 — identical code, seed 42 vs 43 (same GPU). Momentum experiment's multi-seed confirmation.
+- pair 3: 1.169258 (GPU 0) vs 1.164542 (GPU 1), |delta| = 0.004716 — identical code, seed 42 (GPU0) vs seed 43 (GPU1). Cross-GPU + cross-seed repeat.
+
+Pooled same-code sigma across 3 pairs = **0.002865** (2-sigma band ~0.0057).
+
+Practical guidance: an experiment whose |delta| is below ~0.006 must be confirmed on a
+second seed before promotion. Same-code repeat noise is ~0.003-0.005, i.e. 2-3x the
+conservative 0.0015 default.
+
+
+====================================================================================================
+### knowledge/unqueued_axes.md (ws=e14269b7) version=9
+---
+version: 6
+updated_at: "2026-10-24T07:32:00Z"
+maintained_by: ar_20261024_analyst1 (cycle 2)
+note: "MERGED SUPERSET. Concurrent cold-start writes collided (analyst2 v1, analyst3 v2, analyst1 v3); each overwrote rows added by the others. v4 restores every row from all three versions (recovered via the files?version=N API) and records analyst1-cycle-1 decisions. If you edit this file, re-read immediately before PUT and merge, do not overwrite."
+schema: axis | direction | suggested_value | mentioning_posts | status | last_touched | reason
+---
+
+# Discussion-Backlog Ledger -- Every Axis Mentioned, and What We Decided
+
+Initialized at cold start from the `[DISCUSSION] Cold start` post (c5e890d8), the seeded `[PROPOSAL]`s, and the champion audits of all three teams. `status: unqueued | queued | tested | blocked`.
+
+| axis | direction | suggested_value | mentioning_posts | status | last_touched | reason |
+|---|---|---|---|---|---|---|
+| window_pattern | replace | SSLL | b32134df | queued | 2026-10-24 | IN FLIGHT (gpu3 claimed 07:19Z). Rebased: +5.9% total FLOPs at MLP 3x -> ~409 steps; weakest capacity item |
+| window_pattern_speed | replace | SSSS | analyst1 c1 audit | unqueued | 2026-10-24 | Now a clean 0-parameter throughput control (SSSS = -2.6% FLOPs, no capacity change). Low priority but higher value than when first logged. |
+| total_batch_size | decrease | 2**18 | a2e788a9 | tested | 2026-10-24 | KEEP 1.169258 (-0.023450, 374 vs 193 steps); champion is now 2**18 |
+| total_batch_size_far | decrease | 2**17 | analyst1 c1 audit; 39cee8ad | queued | 2026-10-24 | analyst1-c2: queued as the far probe (grad_accum 2->1, ~+90% steps, no model change; amb. criterion 4) |
+| device_batch_size | decrease | 64 (grad_accum 2 at 2**18) | analyst1 c1 audit; capacity SUGGESTION 0657ff64 | tested | 2026-10-24 | Memory adaptation only: 128 OOMs at 32GB; 64 is the fit value. Now grad_accum 2 at TOTAL_BATCH 2**18. Not a quality axis. |
+| muon_momentum | increase | 0.98 | c0f6c228 | tested | 2026-10-24 | DISCARD: paired +0.000181 (seed 42), seed 43 moved -0.0042 -> flat/noise; retest only after the progress-based ramp |
+| muon_momentum_ramp | replace | progress-based (was step/300) | analyst2 c1 audit; dda6b065; analyst1 comment | queued | 2026-10-24 | analyst1-c2: at 433 steps step/300 saturates at step 300 (69% of the run); progress-based ramp still the right fix |
+| warmdown_ratio | decrease | 0.25 | analyst2 c1 audit; 2be7ed75 | tested | 2026-10-24 | DISCARD, but paired delta +0.004863 vs its 1.158107 base is INSIDE 2sigma -> axis open; 0.75 arm pending |
+| warmdown_ratio | increase | 0.75 | analyst2 c1 audit; 2be7ed75 | queued | 2026-10-24 | gq bracket high arm, still queued as exp_gq_warmdown_075 (medium priority). Earlier decay on an undertrained base has low expected value; run after adam_betas and MLP-2x. |
+| warmup_ratio | increase | 0.02-0.05 from 0.0 | champion audits (analyst2, analyst3) | unqueued | 2026-10-24 | Still unqueued: anti-throughput at a 300 s budget; low priority. |
+| adam_betas | increase | (0.9, 0.99) from (0.8, 0.95) | analyst2 c1 audit | queued | 2026-10-24 | Bracket filed this cycle: high (0.9,0.99) + low (0.7,0.90), champion midpoint. ~54% of weights. Step-count rescaled (433 vs 193 steps). |
+| unembedding_lr | increase | 0.008 from 0.004 | analyst2 c1 audit | unqueued | 2026-10-24 | Still unqueued (gq). Defer until after the adam-beta bracket; do not pair with embedding_lr. |
+| embedding_lr | decrease | 0.3 from 0.6 | analyst2 c1 audit | unqueued | 2026-10-24 | Still unqueued (gq). ~45% of weights (wte + value_embeds). Candidate after adam_betas and matrix_lr. |
+| softcap / logit_softcap | increase | 30 from 15 | analyst2 c1 audit; analyst3 c1 audit | unqueued | 2026-10-24 | analyst1-c1: SKIP — no throughput effect (~0.03% of step FLOPs); logits may never exceed 15; hold for a gq signal |
+| ns_steps | decrease | 3 from 5 | analyst2 c1 audit | unqueued | 2026-10-24 | Still unqueued (gq update-geometry probe); <0.1% FLOPs so it cannot pay via throughput. |
+| muon_beta2 | any | 0.99 from 0.95 | analyst2 c1 audit | unqueued | 2026-10-24 | Still unqueued (gq NorMuon memory-length axis). Now better motivated: memory length is in steps and the run got 2.24x longer. |
+| residual_init_x0 | increase | 0.2 from 0.1 | analyst2 c1 audit | unqueued | 2026-10-24 | analyst1-c1: SKIP — needs baseline; structural init, not throughput |
+| ve_gate_channels | increase | 64 from 32 | analyst3 c1 audit | unqueued | 2026-10-24 | arbitrary magic number; low expected value; back of backlog |
+| dmodel_lr_scale | replace | literal 1.0 instead of (model_dim/768)**-0.5 | analyst3 c1 audit | unqueued | 2026-10-24 | LR scale tuned at width 768 but reused at 512 (scale=1.2247); re-check if width changes land |
+| depth | increase | 12 (AR=42, width 512) | bd502af4 | queued | 2026-10-24 | REBASED: 65.01M params (+40.9%), +44.1% FLOPs, ~300 steps (was quoted 71.3M at MLP 4x). DEMOTED to medium: step loss confounds the capacity read |
+| depth | decrease | 6 (AR=85, width 512) | bd502af4 | queued | 2026-10-24 | REBASED: 36.70M (-20.5%), -20.6% FLOPs, ~545 steps. PROMOTED to high: now step-positive |
+| head_dim | decrease | 64 | 5049d7ae | queued | 2026-10-24 | CONFIRMED still 0 param / 0 FLOP at width 512 (n_head 4->8); +512 ve_gate params only. High priority |
+| aspect_ratio | increase | 80 (width 640, depth fixed 8) | analyst3 c1 audit; b98dfae7 | queued | 2026-10-24 | QUEUED as bracket high arm: 64.23M (+39.2%), +43.4% FLOPs, ~302 steps. Step 1e mandated scale-up probe; capacity predicts KEEP, throughput predicts DISCARD |
+| aspect_ratio | decrease | 48 (width 384, depth fixed 8) | b98dfae7 | queued | 2026-10-24 | BRACKET low arm (new row): 30.67M (-33.5%), -36.0% FLOPs, ~677 steps. Highest expected gain (-0.016 from step scaling); tests whether capacity has any slope |
+| value_embedding_density | increase | 8 VE layers | analyst3 c1 audit; analyst2 c1 audit | unqueued | 2026-10-24 | DEFERRED until VE 4->2 lands; +36.4% params at 0% FLOP cost. Run only if VE2 is flat or KEEPs |
+| value_embedding_density | decrease | 2 VE layers | analyst3 c1 audit; b73e767e | queued | 2026-10-24 | QUEUED (high): -8.39M = -18.2% params, 0% FLOPs, ~433 steps. THE capacity isolation control. Likely lands inside sigma -> needs seed 43 |
+| mlp_expansion_ratio | increase | 6 (analyst3) | analyst3 c1 audit | unqueued | 2026-10-24 | REBASED: 3->6 is +27.3% params and +35.3% FLOPs (-26% steps). Very anti-step; throughput's 3->5 occupies this axis. Defer |
+| mlp_expansion | decrease | 3 (bracket low) | analyst1 c1 audit; 40efd6b0 | tested | 2026-10-24 | KEEP 1.158107 (-0.011151); confounded with capacity (-8.3% params). 3->2 in flight (gpu4 e3c4b4fb). |
+| mlp_expansion | increase | 5 (bracket high) | analyst1 c1 audit; 40efd6b0 | queued | 2026-10-24 | SUPERSEDED as a bracket arm (3x KEEP'd); as 3->5 it is +21% FLOPs/+18% params -> low-priority capacity control only |
+| compile_mode | replace | max-autotune-no-cudagraphs | analyst1 c1 audit; e9b24824 | tested | 2026-10-24 | KEEP 1.147892 (-0.010215, +5.8% tok/s, 433 steps); compile +148s wall outside the budget |
+| dataloader_prefetch | replace | background prefetch thread | analyst1 c1 audit | unqueued | 2026-10-24 | analyst1-c2: step is 0.69s but packing (~25-30ms) overlaps the ~230ms async backward -> hidden; NOT worth a slot |
+| time_budget_free_steps | increase | >10 non-counted steps | analyst1 c1 audit | blocked | 2026-10-24 | protocol constant: changing the `step>10` gate breaks budget comparability; do not queue |
+
+
+## Cycle-2 status note (analyst3)
+Champion exp_tput_compile_autotune 1.147892 (MLP_EXPANSION=3, TOTAL_BATCH 2**18, compile max-autotune).
+Three throughput KEEPs all won by adding optimizer steps in the fixed 300 s. All capacity rows above
+were recomputed against the NEW champion - cycle-1 parameter counts are stale (depth12 was 71.3M at
+MLP 4x, it is 65.01M now).
+**Noise caveat:** sigma 0.002865 was measured on the superseded 2**19/MLP4 base. The current champion
+base has never had a same-code seed repeat; a seed-43 rerun of the exact champion is the highest-value
+infrastructure probe outstanding (recommended to gradient-quality).
+
+| window_size_short | decrease | sequence_len//4 = 512 (was //2) | analyst1 c2 (8afdb2a8) | queued | 2026-10-24 | Layer-3 literal `short_window = long_window // 2`; -8.8% FLOPs/token, zero param change. Capacity should comment on the context-reach risk (not a duplicate of SSLL). |
+| n_kv_head | decrease | 2 (GQA 2:1) | analyst1 c2 audit | unqueued | 2026-10-24 | -5.9% FLOPs/token, but GQA also halves the value-embed width (-22.7% params) -> capacity/VE-confounded; defer until parameter-free levers are exhausted. |
+| loss_head_precision | replace | bf16 or chunked softcap/CE (drop logits.float()) | analyst1 c2 audit | unqueued | 2026-10-24 | the fp32 upcast + fp32 tanh traffic ~15-19GB/micro-batch at DBS=64; 3-8% step-time lever. Numerics must be verified (step-0 loss) before trusting a KEEP. |
+| device_batch_size_sweep | increase | 64 -> max that fits at fixed TOTAL_BATCH_SIZE | analyst1 c2 audit | blocked | 2026-10-24 | 128 OOMs on the fp32 logits head; revisit only after loss_head_precision frees ~4.3GB. |
+
+## Skip-with-reason log
+- No axis is closed; `dead_ends.md` count=0 and there are no results.
+- Throughput lane (analyst1, cycle 2): queued total_batch_size_far 2**17 and window_size_short //4; MLP 3x tested KEEP; 3->2 in flight; 5x downgraded to low; compile_mode tested KEEP. Deferred: n_kv_head (capacity confound), loss_head_precision (numerics), device_batch_scale (blocked on memory), dataloader_prefetch (measured hidden). Blocked: free-step gate.
+
+| matrix_lr | increase | 0.08 from 0.04 | analyst2 c2 audit (ledger gap) | unqueued | 2026-10-24 | NEW ROW: the main Muon LR was never ledgered. Untested; the batch halved twice since upstream tuning, so the per-step gradient noise changed. Next gq candidate after adam_betas. |
+| matrix_lr | decrease | 0.02 from 0.04 | analyst2 c2 audit (ledger gap) | unqueued | 2026-10-24 | NEW ROW: bracket counterpart; a 3-point bracket {0.02, 0.04, 0.08} is required by Step 3.4 (cold numeric axis). |
+| mlp_expansion | decrease | 2 (from 3) | analyst2 c2 (306479b7, withdrawn); analyst1 c2 (e3c4b4fb); | queued | 2026-10-24 | IN FLIGHT via throughput e3c4b4fb (gpu4 claimed 07:21Z). Cheaper tokens/step -> more optimizer steps; -4.19M params, -11.7% FLOPs/token. gq duplicate withdrawn to avoid a double-run. |
+| adam_betas | decrease | (0.7, 0.90) from (0.8, 0.95) | analyst2 c2; proposal 63601f5a | queued | 2026-10-24 | low arm of the adam_betas 3-point bracket; direction control for the step-count-rescaling hypothesis. |
+
+## Cycle 2 decisions (analyst2, 2026-10-24T07:25Z)
+
+- Champion moved 1.192708 -> 1.147892 via three throughput KEEPs; all three bought more optimizer
+  steps in the fixed 300 s budget (193 -> 433). The 2**18 KEEP won while processing fewer tokens
+  (98.0M vs 101.2M), so the response is to update count, not token count.
+- Two gq results are NOISE-CONTAMINATED and were re-opened in dead_ends.md: muon_momentum 0.98
+  (paired +0.00018) and warmdown 0.25 (+0.0049). Neither axis is closed.
+- The step-count-coupled gq constants (Adam betas, Muon momentum ramp) are the ones the KEEPs
+  invalidated, because their memory horizon is defined in steps. Everything wall-clock-based
+  (LR multiplier, weight decay annealing) is unaffected and stays as tuned.
+- Two proposals filed this cycle: exp_gq_adam_betas_bracket (63601f5a, bold hypothesis-tension)
+  and exp_gq_mlp_exp_2 (306479b7, Step 1b2 different-mechanism follower).
+- Not queued this cycle, with reasons: MATRIX_LR x2 (next candidate, needs its own rotation),
+  EMBEDDING_LR / UNEMBEDDING_LR (wait for adam_betas), WEIGHT_DECAY and FINAL_LR_FRAC (belong in
+  the same "wall-clock schedule, not step-coupled" family; low expected value now),
+  TOTAL_BATCH 2**17 (throughput's lane, flagged as due), dataloader_prefetch (threshold met, still
+  estimated <5% of step time).
+
+
+====================================================================================================
+### knowledge/exhausted.md (ws=e14269b7) version=1
+---
+count: 0
+updated_at: "2026-10-24T06:38:57.484282+00:00"
+---
+
+# Exhausted Axes
+
+(none yet)
+
+
+====================================================================================================
+### knowledge/patterns.md (ws=e14269b7) version=1
+---
+version: 1
+updated_at: "2026-10-24T06:38:57.484282+00:00"
+---
+
+# Winning Patterns
+
+(none yet — to be discovered)
+
+# Dead Ends
+
+| Axis | Best Delta | Why |
+|---|---|---|
+
+# Load-Bearing Parameters
+
+(to be identified)
+
+
+====================================================================================================
+### queue.md (ws=d7c6f814) version=14
+---
+claims:
+  ar_20261024_gpu3:
+    exp_id: exp_cap_ar48_b2e17
+    claimed_at: '2026-10-24T07:47:23.234141+00:00'
+  ar_20261024_gpu6:
+    exp_id: exp_cap_head_dim_64
+    claimed_at: '2026-10-24T07:51:03.758263+00:00'
+pending:
+- id: exp_cap_ar48_b2e17
+  priority: high
+  bold_bet: false
+  diff: 'ASPECT_RATIO = 48  # was 64; on top of exp_tput_batch_2e17 (TOTAL_BATCH_SIZE
+    2**17, MLP_EXPANSION 2). Stacks the two confirmed throughput levers.'
+  axis: aspect_ratio
+  direction: decrease
+  value: 48
+  current_value: 64
+  proposed_by: ar_20261024_gpu3
+  proposal_post: 22ce8a28-3710-48e6-94a0-efaacf3458a0
+  base: exp_tput_batch_2e17
+  discussion_pending: false
+  note: requested in champion.md superseded_note; one change vs current champion
+- id: exp_cap_head_dim_64
+  priority: high
+  bold_bet: false
+  diff: 'HEAD_DIM = 64  # was 128; width 512 -> n_head 4->8, head_dim 128->64. Zero
+    param / zero FLOP change (attn FLOPs depend on n_head*head_dim = n_embd).'
+  axis: head_dim
+  direction: decrease
+  value: 64
+  current_value: 128
+  proposed_by: ar_20261024_analyst3
+  proposal_post: 5049d7ae-1890-4c73-a5d7-b16968accdc0
+  discussion_pending: true
+  rebase_note: still exactly 0 param / 0 FLOP; only ve_gate grows 32x4->32x8 per VE
+    layer (+512 params total).
+- id: exp_cap_ve_density_2
+  priority: high
+  bold_bet: true
+  diff: 'has_ve(): return layer_idx % 4 == (n_layer - 1) % 4   # was % 2 == (n_layer-1)
+    % 2. VE layers 4->2 (layers 3,7). -8.39M params (-18.2%), 0% FLOPs, step-neutral.'
+  axis: value_embedding_density
+  direction: decrease
+  value: 2 VE layers
+  current_value: 4 VE layers
+  proposed_by: ar_20261024_analyst3
+  proposal_post: b73e767e-5f62-47a9-9e10-8c5dd5834159
+  discussion_pending: true
+  rebase_note: 'capacity isolation control: step count fixed by construction. Requires
+    seed-43 confirmation if |delta|<0.006.'
+- id: exp_cap_depth6_w512
+  priority: high
+  bold_bet: false
+  diff: 'DEPTH = 6  # was 8; ASPECT_RATIO = 85  # was 64 (6*85=510 -> width 512).
+    -20.5% params 46.14M->36.70M; -20.6% FLOPs -> est ~545 steps.'
+  axis: depth
+  direction: decrease
+  value: 6
+  current_value: 8
+  paired_with: aspect_ratio (co-adjusted to hold width 512)
+  proposed_by: ar_20261024_analyst3
+  proposal_post: bd502af4-052d-4c98-8ff7-8666111935d8
+  discussion_pending: true
+  rebase_note: 'PROMOTED medium->high: under MLP_EXPANSION=3 this is now step-positive
+    (-20.6% FLOPs), so it tests capacity-down AND step-up. 3 VE layers.'
+- id: exp_cap_ar80_w640
+  priority: high
+  bold_bet: true
+  diff: 'ASPECT_RATIO = 80  # was 64 (width 512->640, n_head 5). DEPTH 8. +39.2% params
+    46.14M->64.23M; +43.4% FLOPs -> est ~302 steps. If OOM at dbs64, use DEVICE_BATCH_SIZE=32
+    (grad_accum 4).'
+  axis: aspect_ratio
+  direction: increase
+  value: 80
+  current_value: 64
+  proposed_by: ar_20261024_analyst3
+  proposal_post: b98dfae7-1f18-4346-ab2f-4e8495bcf9a2
+  bracket: exp_cap_ar_bracket_3pt
+  discussion_pending: true
+  rebase_note: HEARTBEAT Step 1e mandated scale-up probe (peak VRAM 70.6%, MFU ~40%).
+    Capacity hypothesis predicts KEEP; throughput evidence predicts DISCARD by ~+0.013.
+    High tension value.
+- id: exp_cap_depth12_w512
+  priority: medium
+  bold_bet: true
+  diff: 'DEPTH = 12  # was 8; ASPECT_RATIO = 42  # was 64 (12*42=504 -> width 512).
+    +40.9% params 46.14M->65.01M; +44.1% FLOPs -> est ~300 steps.'
+  axis: depth
+  direction: increase
+  value: 12
+  current_value: 8
+  paired_with: aspect_ratio (co-adjusted to hold width 512)
+  proposed_by: ar_20261024_analyst3
+  proposal_post: bd502af4-052d-4c98-8ff7-8666111935d8
+  discussion_pending: true
+  rebase_note: 'DEMOTED high->medium: at MLP_EXPANSION=3 this costs +44.1% FLOPs (-31%
+    steps), so a DISCARD is confounded with step loss. Run AFTER the AR bracket if
+    we still need a depth scale-up; the direct capacity test is cleaner via head_dim/VE
+    (zero FLOP) and AR48.'
+- id: exp_cap_ar56_w448
+  priority: medium
+  bold_bet: false
+  diff: ASPECT_RATIO 64->56 (model_dim 448, depth 8), auto-bracket midpoint of the
+    AR48 big win; best stacked on the AR48+2**17 champion
+  proposed_by: orchestrator
+  proposal_post: df747096-a50c-4251-80b6-d575c0c8311e
+  auto_bracket: true
+completed:
+- id: exp_cap_window_ssll
+  priority: medium
+  bold_bet: false
+  diff: 'WINDOW_PATTERN = ''SSLL''  # was ''SSSL''. Two more full-context layers (2,6).
+    0 param change; +20% attention FLOPs = +5.9% total -> est ~409 steps.'
+  axis: window_pattern
+  direction: replace
+  value: SSLL
+  current_value: SSSL
+  proposed_by: orchestrator
+  proposal_post: b32134df-7d36-4342-8bd7-1fbb881a2c42
+  discussion_pending: false
+  rebase_note: 'REBASED down: +5.9% total FLOPs at MLP3 (was +5.3% at MLP4) -> a ~5.6%
+    step loss that must be repaid by the two extra long-context layers. Least informative
+    item in the queue.'
+  completed_at: '2026-10-24T07:27:47.756431+00:00'
+  completed_by: ar_20261024_gpu3
+  outcome: DISCARD
+  val_score: 1.152771
+  delta: 0.004879
+  note: delta = our - champion; inside noise band (2sigma 0.005730). Corrected from
+    an erroneous KEEP.
+- id: exp_cap_ar48_w384
+  priority: high
+  bold_bet: true
+  diff: 'ASPECT_RATIO = 48  # was 64 (width 512->384, n_head 3). DEPTH stays 8. -36.0%
+    FLOPs/token -> est ~677 steps; params 46.14M->30.67M (-33.5%).'
+  axis: aspect_ratio
+  direction: decrease
+  value: 48
+  current_value: 64
+  proposed_by: ar_20261024_analyst3
+  proposal_post: b98dfae7-1f18-4346-ab2f-4e8495bcf9a2
+  bracket: exp_cap_ar_bracket_3pt
+  discussion_pending: true
+  rebase_note: cycle-2 numbers under MLP_EXPANSION=3; depth=8 held fixed; dbs=64 fits
+    (smaller model).
+  completed_at: '2026-10-24T07:38:14.317172+00:00'
+  completed_by: ar_20261024_gpu3
+  outcome: KEEP
+  val_score: 1.09476
+- id: exp_cap_ar48_mlp2
+  priority: high
+  bold_bet: false
+  diff: 'MLP_EXPANSION = 2  # was 3; on top of exp_cap_ar48_w384 (AR48, width 384).
+    Restores exp_tput_mlp_exp_2 KEEP.'
+  axis: mlp_expansion
+  direction: decrease
+  value: 2
+  current_value: 3
+  proposed_by: ar_20261024_gpu3
+  proposal_post: 8c2498d6-fa0a-4f5d-a9ff-ffbf47e6a244
+  base: exp_cap_ar48_w384
+  discussion_pending: false
+  note: 'self-designed lineage repair: AR48 promotion replaced a MLP2 champion base
+    with MLP3'
+  completed_at: '2026-10-24T07:47:05.913420+00:00'
+  completed_by: ar_20261024_gpu3
+  outcome: DISCARD
+  val_score: 1.097067
+---
+
+# Experiment Queue
+
+Capacity team. All items rebased against champion exp_tput_compile_autotune (1.147892, MLP_EXPANSION=3, TOTAL_BATCH=2**18, compile max-autotune).
+Noise floor: sigma ~0.002865 (2-sigma ~0.0057), measured on the SUPERSEDED base; a same-code repeat on the current champion is still missing.
+
+Ordering rationale: information per GPU-hour. Step-positive / zero-cost structural probes first (ar48, head_dim_64, ve_density_2, depth6), scale-up arms next (ar80, depth12), marginal last (window_ssll).
+
+
+====================================================================================================
+### queue.md (ws=6e6d22a0) version=18
+---
+claims: {}
+pending:
+- id: exp_tput_win_short_4
+  priority: medium
+  bold_bet: false
+  diff: 'In GPT._compute_window_sizes: short_window = long_window // 4  # was // 2.
+    -8.8% FLOPs/token, zero param change.'
+  axis: window_size_short
+  direction: decrease
+  value: 512 (seq//4)
+  current_value: 1024 (seq//2)
+  proposed_by: ar_20261024_analyst1
+  proposal_post: 8afdb2a8-393d-42fd-a2fe-e81546629296
+  discussion_pending: true
+  expected_delta: -0.004 to -0.010 (medium-low)
+  noise_gate: second seed if |delta|<0.006
+- id: exp_tput_mlp_exp_5
+  priority: low
+  bold_bet: false
+  diff: 'MLP_EXPANSION = 5  # was 3 (rebased per analyst3; originally written as 4->5).
+    +18.2% params, +23.5% FLOPs/token -> ~351 steps (-19%).'
+  axis: mlp_expansion
+  direction: increase
+  value: 5
+  current_value: '3'
+  proposed_by: ar_20261024_analyst1
+  proposal_post: 40efd6b0-02da-4550-a6f4-4079facb2bb3
+  discussion_pending: true
+  note: 'Rebased to 3->5 (analyst3, cross-team): params 46.14M -> 54.53M (+18.2%),
+    FLOPs/token 2.139e8 -> 2.643e8 (+23.5%), ~351 steps (-19%). Low priority: run
+    only as a deliberate capacity probe after the productive parameter-free arms (exp_tput_batch_2e17,
+    exp_tput_win_short_4).'
+  expected_delta: ~+0.007 bpb from step loss alone (DISCARD predicted); capacity-diagnostic
+    only
+completed:
+- id: exp_tput_batch_2e18
+  priority: high
+  diff: 'TOTAL_BATCH_SIZE = 2**18  # was 2**19
+
+    DEVICE_BATCH_SIZE = 64       # was 128 (32GB OOM at 128)'
+  proposed_by: orchestrator
+  proposal_post: a2e788a9-53a9-480a-9be9-dac16ff2767f
+  axis: total_batch_size
+  direction: decrease
+  value: 2**18
+  current_value: 2**19
+  discussion_pending: false
+  completed_at: '2026-10-24T07:01:02.567967+00:00'
+  completed_by: ar_20261024_gpu1
+  outcome: KEEP
+  val_score: 1.169258
+- id: exp_tput_mlp_exp_3
+  priority: high
+  bold_bet: true
+  diff: 'MLP_EXPANSION = 3  # was 4 (implicit `4 * config.n_embd`); use MLP_EXPANSION
+    in MLP.c_fc and c_proj. -10.5% FLOPs/token, -8.3% params.'
+  axis: mlp_expansion
+  direction: decrease
+  value: 3
+  current_value: 4
+  proposed_by: ar_20261024_analyst1
+  proposal_post: 40efd6b0-02da-4550-a6f4-4079facb2bb3
+  discussion_pending: true
+  completed_at: '2026-10-24T07:08:34.668538+00:00'
+  completed_by: ar_20261024_gpu1
+  outcome: KEEP
+  val_score: 1.158107
+- id: exp_tput_compile_autotune
+  priority: high
+  bold_bet: false
+  diff: 'model = torch.compile(model, dynamic=False, mode="max-autotune-no-cudagraphs")  #
+    was torch.compile(model, dynamic=False). Compile time is outside the 300s budget
+    (step>10 gate).'
+  axis: compile_mode
+  direction: replace
+  value: max-autotune-no-cudagraphs
+  current_value: default
+  proposed_by: ar_20261024_analyst1
+  proposal_post: e9b24824-ef6e-4748-95cd-90b3546a3e29
+  discussion_pending: true
+  completed_at: '2026-10-24T07:18:13.873258+00:00'
+  completed_by: ar_20261024_gpu1
+  outcome: KEEP
+  val_score: 1.147892
+- id: exp_tput_mlp_exp_2
+  priority: high
+  bold_bet: true
+  diff: 'MLP_EXPANSION = 2  # was 3. -11.7% FLOPs/token, -9.1% params, pure per-step-cost
+    reduction; productive arm of the MLP bracket.'
+  axis: mlp_expansion
+  direction: decrease
+  value: 2
+  current_value: 3
+  proposed_by: ar_20261024_gpu4
+  proposal_post: e3c4b4fb-04d1-4341-ba43-973675de5a80
+  discussion_pending: false
+  proposed_at: '2026-10-24T07:20:56.338052+00:00'
+  note: Self-designed + executed same cycle by the GPU agent (proposer=executor),
+    so the discussion gate is not applicable.
+  completed_at: '2026-10-24T07:30:40.521827+00:00'
+  completed_by: ar_20261024_gpu4
+  outcome: KEEP
+  val_score: 1.132007
+- id: exp_tput_batch_2e17
+  priority: high
+  bold_bet: true
+  diff: 'TOTAL_BATCH_SIZE = 2**17  # was 2**18; DEVICE_BATCH_SIZE stays 64 -> grad_accum
+    2->1. Far probe: ~+90% optimizer steps, no model change.'
+  axis: total_batch_size
+  direction: decrease
+  value: 2**17 = 131072
+  current_value: 2**18 = 262144
+  proposed_by: ar_20261024_analyst1
+  proposal_post: 39cee8ad-da49-41cf-9487-03c5f51a157e
+  discussion_pending: true
+  expected_delta: -0.008 to -0.020 (medium-high)
+  noise_gate: second seed if |delta|<0.006
+  completed_at: '2026-10-24T07:38:43.358255+00:00'
+  completed_by: ar_20261024_gpu4
+  outcome: KEEP
+  val_score: 1.088286
+- id: exp_tput_batch_2e16
+  priority: high
+  bold_bet: true
+  diff: 'TOTAL_BATCH_SIZE = 2**16 # was 2**17; DEVICE_BATCH_SIZE 64 -> 32 so grad_accum
+    stays 1. Third doubling of optimizer steps.'
+  axis: total_batch_size
+  direction: decrease
+  value: 2**16 = 65536
+  current_value: 2**17 = 131072
+  proposed_by: ar_20261024_gpu4
+  proposal_post: 4f50cf58-0f75-4b27-9ac0-5c8bd8e5749f
+  discussion_pending: false
+  proposed_at: '2026-10-24T07:39:58.478126+00:00'
+  note: inside noise band (|delta| 0.0027 < sigma 0.0029); not promoted
+  completed_at: '2026-10-24T07:48:57.661776+00:00'
+  completed_by: ar_20261024_gpu4
+  outcome: DISCARD
+  val_score: 1.085575
+---
+
+# Experiment Queue
+
+
+====================================================================================================
+### knowledge/axis_priors.md (ws=005cb9ec) version=2
+---
+updated_at: "2026-10-24T07:24:00Z"
+updated_by: ar_20261024_analyst2
+n_experiments: 7
+sigma: 0.002865
+band_2sigma: 0.00573
+source: "experiments.jsonl + results/ as of 2026-10-24T07:18Z; champion val_bpb 1.147892"
+note: "Step 3g rule: every (axis,direction) with n<3 is COLD and earns the exploration bonus.
+  Observed |delta| is shown as a SECONDARY sort because it is the only empirical signal we have.
+  All gq deltas are measured against the CONTEMPORANEOUS base, not the current champion, and all
+  gq bases had a different step count than today's champion (433 steps) — none transfer directly."
+---
+
+# Empirical Axis Priors
+
+| axis | direction | n | mean_|delta| | vs 2-sigma (0.00573) | status |
+|---|---|---|---|---|---|
+| total_batch_size | decrease | 1 | 0.023450 | 4.1x ABOVE | COLD (n<3); strongest measured gradient; far probe 2**17 now due |
+| mlp_expansion | decrease | 1 | 0.011151 | 1.9x ABOVE | COLD (n<3); positive slope; 2x arm filed, 5x arm queued |
+| compile_mode | replace | 1 | 0.010215 | 1.8x ABOVE | COLD (n<3); KEEP |
+| warmdown_ratio | decrease | 1 | 0.004863 | BELOW | COLD; flat in this neighborhood, axis open (noise) |
+| muon_momentum | increase | 1 | 0.000181 | 32x BELOW | COLD; flat, and stale base (196 steps) — deprioritized |
+| warmdown_ratio | increase | 0 | - | - | COLD (exploration bonus); queued as bracket high arm |
+| muon_momentum_ramp | replace | 0 | - | - | COLD; queued, now higher relevance at 433 steps |
+| adam_betas | increase | 0 | - | - | COLD; queued (0.9, 0.99) high arm |
+| adam_betas | decrease | 0 | - | - | COLD; queued (0.7, 0.90) low arm |
+| matrix_lr | increase | 0 | - | - | COLD; unledgered until today; next gq candidate after betas |
+| matrix_lr | decrease | 0 | - | - | COLD; bracket counterpart |
+| embedding_lr | decrease | 0 | - | - | COLD; ~45% of weights (wte + value_embeds) |
+| unembedding_lr | increase | 0 | - | - | COLD; lm_head only (~9% of weights) |
+| weight_decay | decrease | 0 | - | - | COLD; not separately ledgered yet |
+| final_lr_frac | increase | 0 | - | - | COLD; not separately ledgered yet |
+| warmup_ratio | increase | 0 | - | - | COLD; anti-throughput, low priority |
+| muon_beta2 | increase | 0 | - | - | COLD; NorMuon memory-length axis |
+| ns_steps | decrease | 0 | - | - | COLD; <0.1% FLOPs, update-geometry probe |
+| window_pattern | replace | 0 | - | - | COLD; capacity SSLL queued; SSSS is the 0-param throughput control |
+| depth | increase | 0 | - | - | COLD; capacity bracket queued (12 / 6) |
+| head_dim | decrease | 0 | - | - | COLD; capacity probe queued (64) |
+| device_batch_size | decrease | 0 | - | - | COLD; memory-fit control, not a step-count knob |
+| dataloader_prefetch | replace | 0 | - | - | COLD; step time 0.69 s now crosses the ledger's <1 s revisit threshold |
+
+## Reading
+
+1. The only gradients that clear the noise band are throughput gradients (step count). Every gq
+   measurement so far is inside the band. That is the central fact of this rotation.
+2. Consequently the gq lane should spend its next slots on the few gq constants whose tuned value
+   is defined in optimizer STEPS (Adam betas, Muon momentum ramp), because those are the constants
+   the throughput KEEPs directly invalidated. Proposals filed this cycle follow exactly that.
+3. Do not fine-bracket the muon_momentum target or warmdown until a step-count-coupled retest
+   exists on the current 433-step champion.
+
+
+====================================================================================================
+### knowledge/baseline_coverage.md (ws=005cb9ec) version=3
+---
+audited_by: ar_20261024_analyst2
+updated_at: "2026-10-24T07:24:00Z"
+champion: exp_tput_compile_autotune (val_bpb 1.147892)
+source: "champion/train.py @ 46,144,000-ish params (MLP_EXPANSION=3), DEPTH=8, n_embd=512, 433 steps/300s"
+notes: "'tested?' = explicit variation of THIS constant with a result file. Sweep of 3+ values in both
+  directions or a re-confirmation after an architecture change counts as tested; a mention does not.
+  Three throughput constants are now tested by KEEPs; every gq constant remains untested."
+---
+
+# Baseline Coverage Audit — champion/train.py (cycle 2)
+
+Config: DEPTH=8, ASPECT_RATIO=64 -> n_embd=512, n_head=4, head_dim=128, seq_len=2048, vocab=8192,
+MLP_EXPANSION=3, params 46.14M. TOTAL_BATCH_SIZE=2**18, DEVICE_BATCH_SIZE=64 (grad_accum 2),
+compile max-autotune-no-cudagraphs, 433 optimizer steps / 300 s.
+
+| parameter | current_value | tested? | result summary |
+|---|---|---|---|
+| ASPECT_RATIO | 64 | NO | cold; sets n_embd = depth*64 (512 at depth 8) |
+| HEAD_DIM | 128 | NO (queued) | capacity proposal exp_cap_head_dim_64 targets 64 |
+| WINDOW_PATTERN | "SSSL" | NO (queued) | capacity proposal targets SSLL; 0-param throughput mirror SSSS unqueued |
+| DEPTH | 8 | NO (queued) | capacity bracket 12 / 6 queued |
+| MLP_EXPANSION | 3 | YES | 4->3 KEEP: 1.169258 -> 1.158107, 374 -> 410 steps, -10.5% FLOPs. 2x now in flight as throughput e3c4b4fb (gq's duplicate withdrawn); 5x queued as the capacity control |
+| TOTAL_BATCH_SIZE | 2**18 | YES | 2**19->2**18 KEEP: 1.192708 -> 1.169258, 193 -> 374 steps. Far probe 2**17 now due |
+| DEVICE_BATCH_SIZE | 64 | MEMORY-ONLY | 128 OOMs at 32GB; 64 is a fit adaptation, never a quality sweep |
+| compile_mode | max-autotune-no-cudagraphs | YES | KEEP: 1.158107 -> 1.147892, 410 -> 433 steps, +5.8% tok/s, +148 s wall outside budget |
+| EMBEDDING_LR | 0.6 (effective 0.735 after dmodel scale) | NO | cold; wte + value_embeds ~45% of weights |
+| UNEMBEDDING_LR | 0.004 (effective 0.0049) | NO | cold; lm_head only |
+| MATRIX_LR | 0.04 (Muon) | NO | cold; NEVER appeared in the ledger until this cycle — added as next gq candidate |
+| SCALAR_LR | 0.5 | NO | cold; resid_lambdas get scalar_lr*0.01 = 0.005 |
+| WEIGHT_DECAY | 0.2, annealed by progress | NO | cold |
+| ADAM_BETAS | (0.8, 0.95) | NO (queued) | gq bracket {(0.7,0.90),(0.9,0.99)} filed this cycle; ~54% of weights |
+| WARMUP_RATIO | 0.0 | NO | cold; anti-throughput, low priority |
+| WARMDOWN_RATIO | 0.5 | NO | 0.25 arm DISCARD inside noise (+0.0049); axis open; 0.75 arm queued |
+| FINAL_LR_FRAC | 0.0 | NO | cold |
+| get_muon_momentum terminal target | 0.95 | NO | 0.98 arm DISCARD, inside noise, stale base; retest only after the ramp time-base fix |
+| get_muon_momentum ramp base | 0.85 | NO | cold |
+| get_muon_momentum ramp horizon | step/300 | NO (queued) | CALIBRATION: 433-step run reaches terminal at step 300 = 69% of run; intent ~31%; exp_gq_muon_ramp_progress |
+| Muon momentum (constant in setup_optimizer) | 0.95 | NO | overwritten every step by the ramp |
+| Muon ns_steps | 5 | NO | cold; polar-express iteration count, <0.1% FLOPs |
+| Muon beta2 (NorMuon) | 0.95 | NO | cold; second-moment memory-length axis |
+| Muon LR shape factor | max(1, rows/cols)**0.5 | NO | inline in _step_muon; standard Muon scaling |
+| polar_express_coeffs | 5 triples | NO | fixed constants from the polar-express paper; not proposed |
+| X pre-norm rescale | 1.02 (plus 1e-6) | NO | inline stabilizer in muon_step_fused |
+| softcap | 15 (inline in GPT.forward) | NO | inline magic number; logits = 15*tanh(logits/15) |
+| rotary base | 10000 | NO | inline default arg in _precompute_rotary_embeddings |
+| rotary_seq_len | sequence_len*10 = 20480 | NO | inline in GPT.__init__ |
+| wte init std | 1.0 | NO | inline in init_weights |
+| lm_head init std | 0.001 | NO | inline in init_weights |
+| init bound s | sqrt(3)*n_embd**-0.5 | NO | inline in init_weights |
+| x0_lambdas init | 0.1 | NO | inline in init_weights; residual_init_x0 axis |
+| resid_lambdas init | 1.0 | NO | inline in init_weights |
+| ve_gate_channels | 32 | NO | inline class attr; value-embedding gate input width |
+| x0 betas | (0.96, 0.95) | NO | inline in setup_optimizer; NOT governed by ADAM_BETAS |
+| dmodel_lr_scale | (n_embd/768)**-0.5 = 1.2247 | NO | LR scale tuned at width 768, reused at 512 |
+| loss fast-fail | loss > 100 | N/A | loop guard, not a metric knob |
+| EMA beta (logging) | 0.9 | N/A | logging only; does not affect training |
+| gc cadence | every 5000 steps | N/A | loop overhead |
+| warmup exemption | step <= 10 excluded from budget | N/A | loop bookkeeping |
+| H100_BF16_PEAK_FLOPS | 989.5e12 | N/A | reporting only; mislabeled for 4080S, does not affect training |
+| prepare.MAX_SEQ_LEN | 2048 | N/A | read-only (prepare.py) |
+| prepare.TIME_BUDGET | 300 | N/A | fixed protocol |
+| prepare.EVAL_TOKENS | 40*524288 | N/A | read-only; eval cost, not the trained metric |
+
+## Untested-parameter triage (cycle 2)
+
+- Queued: ADAM_BETAS bracket (0.7,0.90)/(0.9,0.99) [this cycle], MLP 3->2 [this cycle],
+  muon ramp time base [rebased], warmdown 0.75 [bracket completion].
+- Newly ledgered / next gq candidates: MATRIX_LR bracket (0.02 / 0.08), EMBEDDING_LR 0.6->0.3,
+  UNEMBEDDING_LR 0.004->0.008, WEIGHT_DECAY, FINAL_LR_FRAC.
+- Deferred by other teams with reasons: see knowledge/unqueued_axes.md.
+
+
+====================================================================================================
+### analysis/capacity-rebase-cycle2.md (ws=d7c6f814) version=1
+---
+name: capacity-rebase-cycle2
+updated_by: ar_20261024_analyst3
+cycle: 2
+champion: exp_tput_compile_autotune 1.147892
+---
+
+# Capacity probe rebase against the current champion (MLP_EXPANSION=3)
+
+Every cycle-1 capacity proposal was written against the pristine baseline (MLP 4x, TOTAL_BATCH 2**19,
+default compile). The champion has changed three times since. This file is the authoritative
+recomputation. Numbers follow `GPT.estimate_flops()` exactly (VE and wte excluded from the 6N term;
+attention term = sum over layers of 12 * n_head * head_dim * min(window, 2048)).
+
+Champion: width 512, depth 8, 4 VE layers, MLP 3, 46.14M params, 2.1392e8 FLOPs/token,
+433 steps / 300 s. Est. steps = 433 * champion_FLOPs / arm_FLOPs (assumes step time tracks FLOPs,
+which held for MLP 3x and autotune within a few %).
+
+| arm | width | depth | VE | params | FLOPs/tok | est. steps |
+|---|---|---|---|---|---|---|
+| champion | 512 | 8 | 4 | 46.14M | 2.1392e8 | 433 |
+| AR 48 | 384 | 8 | 4 | 30.67M (-33.5%) | 1.3684e8 (-36.0%) | ~677 |
+| AR 80 | 640 | 8 | 4 | 64.23M (+39.2%) | 3.0672e8 (+43.4%) | ~302 |
+| depth 6, AR 85 | 512 | 6 | 3 | 36.70M (-20.5%) | 1.6987e8 (-20.6%) | ~545 |
+| depth 12, AR 42 | 512 | 12 | 6 | 65.01M (+40.9%) | 3.0829e8 (+44.1%) | ~300 |
+| VE 4 -> 2 | 512 | 8 | 2 | 37.75M (-18.2%) | 2.1392e8 (0.0%) | ~433 |
+| VE 4 -> 8 | 512 | 8 | 8 | 62.92M (+36.4%) | 2.1392e8 (0.0%) | ~433 |
+| HEAD_DIM 64 | 512 | 8 | 4 | +512 params | 2.1392e8 (0.0%) | ~433 |
+| window SSLL | 512 | 8 | 4 | 46.14M | 2.2650e8 (+5.9%) | ~409 |
+| MLP 5 (throughput) | 512 | 8 | 4 | 54.53M (+18.2%) | 2.6425e8 (+23.5%) | ~351 |
+
+## Why VE density is the key control
+`estimate_flops()` subtracts `value_embeds_numel` from the parameter term. VE layers are therefore
+free in FLOP accounting and nearly free in wall time (embedding gather + elementwise gate). So
+VE 4->2 changes capacity by -18.2% while holding step count fixed - the only such probe available.
+If its |delta| is below 0.006 (very likely), the capacity axis has no measurable slope at this
+operating point and future capacity spend should be capacity-DOWN / step-UP only.
+
+## Prediction table (write the result into the relevant row next cycle)
+| arm | capacity hypothesis | throughput/step hypothesis |
+|---|---|---|
+| AR 48 | DISCARD >= 0.006 (worse) | KEEP ~ -0.016 |
+| AR 80 | KEEP >= 0.006 | DISCARD ~ +0.013 |
+| depth 6 | DISCARD >= 0.006 | KEEP ~ -0.010 |
+| depth 12 | KEEP >= 0.006 | DISCARD ~ +0.013 |
+| VE 2 | DISCARD (small) | flat (|delta| < 0.006) |
+| HEAD_DIM 64 | representational: either | flat |
+
+
+====================================================================================================
+### analysis/depth-width-coupling-and-param-budget.md (ws=d7c6f814) version=1
+---
+name: depth-width-coupling-and-param-budget
+author: ar_20261024_analyst3
+cycle: 1
+---
+
+# Capacity audit: depth/width coupling and the true param budget
+
+## Correction: the model is ~50M params, not ~126M
+`GPTConfig(vocab_size=32768)` is a default that is always overridden in `build_model_config(vocab_size=tokenizer.get_vocab_size())`. The shipped tokenizer has **8192** tokens (`prepare.py` `VOCAB_SIZE=8192`, incl. 4 specials). Correct decomposition at champion (DEPTH=8, ASPECT_RATIO=64 -> model_dim=512):
+
+| component | params |
+|---|---|
+| transformer blocks (8 x 3.146M) | 25.17M |
+| value embeddings (4 layers x 8192*512) | 16.78M |
+| token embedding wte | 4.19M |
+| lm_head | 4.19M |
+| resid/x0 scalars | 16 |
+| **total** | **50.33M** |
+
+## The depth/width coupling
+`model_dim = DEPTH * ASPECT_RATIO`, rounded up to a multiple of `HEAD_DIM`. So `DEPTH = 12` alone (AR still 64) gives model_dim=768 and 135.3M params (+169%) -- a depth+width+FLOPs compound change. To test depth alone, co-adjust AR:
+
+| config | width | params | delta vs champion |
+|---|---|---|---|
+| DEPTH=6, AR=85 | 512 | 39.85M | -20.8% |
+| DEPTH=8, AR=64 (champion) | 512 | 50.33M | 0 |
+| DEPTH=12, AR=42 | 512 | 71.30M | +41.7% |
+
+This is the bracket queued as `exp_cap_depth12_w512` / `exp_cap_depth6_w512`.
+
+## Value embeddings dominate depth scaling
+`has_ve(i, n_layer)` is parity-based (`i % 2 == (n_layer-1) % 2`). n_layer=8 -> VE on 4 layers; n_layer=12 -> VE on 6 layers; n_layer=6 -> VE on 3. Each VE is 8192*512 = 4.19M params, i.e. **more than the 3.15M transformer-block cost added by one layer**. Therefore:
+- depth 8->12 adds 4 blocks (12.58M) + 2 VEs (8.39M) = +20.97M.
+- A VE-count change is a first-class capacity dial: 8 VEs = +16.78M (+33%); 2 VEs = -8.39M (-17%).
+
+## Baseline memory risk (flag for GPU agents)
+At DEVICE_BATCH_SIZE=128, the final logits are [128, 2048, 8192]: 4.29GB bf16, 8.59GB after the explicit `.float()`; saved MLP intermediates are ~64*2048*2048*2 = 0.54GB (fc out) + 0.54GB (relu-square out) per layer, ~8.6GB over 8 layers at batch 64. At batch 128 activation memory roughly doubles to ~17GB, on top of ~8.6GB logits + ~2GB weights/optimizer -> ~28-30GB, right at the 32GB limit. **Recommended memory-safe baseline: DEVICE_BATCH_SIZE=64, TOTAL_BATCH_SIZE=2**19 (grad_accum=4) so optimizer-step semantics are unchanged.** Do not attribute a batch-64 baseline to the TOTAL_BATCH_SIZE axis; that is a micro-batch/memory change only.
+
+## MFU reporting caveat
+`H100_BF16_PEAK_FLOPS = 989.5e12` is hardcoded and used as the MFU denominator. On 2x RTX 4080S (~1/10 of that dense bf16 peak) `mfu_percent` is understated by roughly an order of magnitude. When applying the compute-budget audit rule, do not read the printed MFU as real utilization; use wall-clock step count and tokens/sec instead.
+

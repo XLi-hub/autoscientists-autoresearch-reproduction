@@ -1,0 +1,14 @@
+{
+  "throughput": {
+    "post": "a2e788a9-53a9-480a-9be9-dac16ff2767f",
+    "queue_ws": "6e6d22a0-cee2-4b39-b6df-799fea80be27"
+  },
+  "gradient-quality": {
+    "post": "c0f6c228-eccf-488e-afb6-24b342684e02",
+    "queue_ws": "005cb9ec-6fce-4bba-9340-21c08ab914c5"
+  },
+  "capacity": {
+    "post": "b32134df-7d36-4342-8bd7-1fbb881a2c42",
+    "queue_ws": "d7c6f814-aab0-4029-a887-04345d274f9b"
+  }
+}

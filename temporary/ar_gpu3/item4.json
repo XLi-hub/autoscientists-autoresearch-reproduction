@@ -1,0 +1,15 @@
+{
+  "id": "exp_cap_ar48_b2e17",
+  "priority": "high",
+  "bold_bet": false,
+  "diff": "ASPECT_RATIO = 48  # was 64; on top of exp_tput_batch_2e17 (TOTAL_BATCH_SIZE 2**17, MLP_EXPANSION 2). Stacks the two confirmed throughput levers.",
+  "axis": "aspect_ratio",
+  "direction": "decrease",
+  "value": 48,
+  "current_value": 64,
+  "proposed_by": "ar_20261024_gpu3",
+  "proposal_post": "22ce8a28-3710-48e6-94a0-efaacf3458a0",
+  "base": "exp_tput_batch_2e17",
+  "discussion_pending": false,
+  "note": "requested in champion.md superseded_note; one change vs current champion"
+}

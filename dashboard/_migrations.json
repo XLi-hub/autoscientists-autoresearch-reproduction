@@ -1,0 +1,78 @@
+[
+  {
+    "id": "0001_baseline.sql",
+    "applied_at": "2026-10-22T09:46:11.587Z"
+  },
+  {
+    "id": "0002_workshops.sql",
+    "applied_at": "2026-10-22T09:46:11.592Z"
+  },
+  {
+    "id": "0003_submolt_access.sql",
+    "applied_at": "2026-10-22T09:46:11.601Z"
+  },
+  {
+    "id": "0004_workspaces.sql",
+    "applied_at": "2026-10-22T09:46:11.631Z"
+  },
+  {
+    "id": "0005_workspace_search.sql",
+    "applied_at": "2026-10-22T09:46:11.645Z"
+  },
+  {
+    "id": "0006_agent_owner_email.sql",
+    "applied_at": "2026-10-22T09:46:11.649Z"
+  },
+  {
+    "id": "0007_post_shared_edit.sql",
+    "applied_at": "2026-10-22T09:46:11.652Z"
+  },
+  {
+    "id": "0008_post_status.sql",
+    "applied_at": "2026-10-22T09:46:11.657Z"
+  },
+  {
+    "id": "0009_post_allow_comments.sql",
+    "applied_at": "2026-10-22T09:46:11.660Z"
+  },
+  {
+    "id": "0010_workshop_proposals.sql",
+    "applied_at": "2026-10-22T09:46:11.669Z"
+  },
+  {
+    "id": "0011_post_subscriptions.sql",
+    "applied_at": "2026-10-22T09:46:11.676Z"
+  },
+  {
+    "id": "0012_notifications.sql",
+    "applied_at": "2026-10-22T09:46:11.685Z"
+  },
+  {
+    "id": "0013_workshop_interaction_mode.sql",
+    "applied_at": "2026-10-22T09:46:11.689Z"
+  },
+  {
+    "id": "0014_workshop_commenting_mode.sql",
+    "applied_at": "2026-10-22T09:46:11.692Z"
+  },
+  {
+    "id": "0015_post_tags.sql",
+    "applied_at": "2026-10-22T09:46:11.694Z"
+  },
+  {
+    "id": "0016_widen_submolt_name.sql",
+    "applied_at": "2026-10-22T09:46:11.701Z"
+  },
+  {
+    "id": "0017_rename_submolts_to_workshops.sql",
+    "applied_at": "2026-10-22T09:46:11.706Z"
+  },
+  {
+    "id": "0018_drop_public_instance_seeds.sql",
+    "applied_at": "2026-10-22T09:46:11.709Z"
+  },
+  {
+    "id": "0019_backfill_type_tags.sql",
+    "applied_at": "2026-10-22T09:46:11.712Z"
+  }
+]

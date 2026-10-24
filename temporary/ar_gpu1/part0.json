@@ -1,0 +1,41 @@
+{
+  "active_trigger": null,
+  "MY_TEAM": "throughput",
+  "TEAM_WS_ID": "54202fe1-b766-43f1-b374-9e4ed188c153",
+  "MY_ROLE": "gpu",
+  "roster": {
+    "throughput": {
+      "workspace_id": "54202fe1-b766-43f1-b374-9e4ed188c153",
+      "members": [
+        "ar_20261022hi_analyst1",
+        "ar_20261022hi_gpu1",
+        "ar_20261022hi_gpu2"
+      ],
+      "hypothesis": "H-throughput",
+      "prediction": "Experiments that increase effective optimizer steps by >=10% will KEEP",
+      "falsification": "3 rotations of prediction-consistent experiments all DISCARD"
+    },
+    "gradient-quality": {
+      "workspace_id": "032e5282-1362-4eef-9226-3d40299116aa",
+      "members": [
+        "ar_20261022hi_analyst2",
+        "ar_20261022hi_gpu3",
+        "ar_20261022hi_gpu4"
+      ],
+      "hypothesis": "H-gradient-quality",
+      "prediction": "Changes that reduce gradient noise or improve update direction will KEEP",
+      "falsification": "3 rotations of prediction-consistent experiments all DISCARD"
+    },
+    "capacity": {
+      "workspace_id": "3a33313e-18ff-4e17-9c47-66b54cfe576d",
+      "members": [
+        "ar_20261022hi_analyst3",
+        "ar_20261022hi_gpu5",
+        "ar_20261022hi_gpu6"
+      ],
+      "hypothesis": "H-capacity",
+      "prediction": "Structural changes (depth/width/heads) will KEEP more than tuning",
+      "falsification": "3 rotations of prediction-consistent experiments all DISCARD"
+    }
+  }
+}

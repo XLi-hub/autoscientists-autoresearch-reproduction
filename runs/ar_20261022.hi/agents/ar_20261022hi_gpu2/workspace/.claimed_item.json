@@ -1,0 +1,14 @@
+{
+  "id": "exp_warmdown_070",
+  "priority": "medium",
+  "description": "WARMDOWN_RATIO 0.5 -> 0.7 (high probe of the warmdown bracket; curvature test: does annealing matter more than peak-LR steps?)",
+  "axis": "warmdown_ratio",
+  "direction": "increase",
+  "value": 0.7,
+  "diff": "In train.py change `WARMDOWN_RATIO = 0.5` to `WARMDOWN_RATIO = 0.7`. Bracket partner: exp_warmdown_025.",
+  "proposed_by": "ar_20261022hi_analyst1",
+  "proposal_post": "f2193067-d6b3-430c-809f-d5cf31c9e41a",
+  "discussion_pending": true,
+  "proposed_at": "2026-10-22T10:54:41.367247+00:00",
+  "paper": null
+}

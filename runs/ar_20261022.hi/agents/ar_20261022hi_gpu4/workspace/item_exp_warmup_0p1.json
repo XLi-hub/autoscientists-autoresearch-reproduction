@@ -1,0 +1,11 @@
+{
+  "id": "exp_warmup_0p1",
+  "description": "Add LR warmup WARMUP_RATIO 0.0 -> 0.1",
+  "priority": "high",
+  "axis": "warmup_ratio",
+  "direction": "increase",
+  "value": "0.1",
+  "diff": "In train.py change `WARMUP_RATIO = 0.0` to `WARMUP_RATIO = 0.1`.",
+  "proposed_by": "orchestrator",
+  "proposal_post": "69c9209c-f96f-4942-9f6c-ba5a3ddebc2e"
+}

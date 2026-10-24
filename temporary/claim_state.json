@@ -1,0 +1,24 @@
+{
+  "exp_id": "exp_activation_silu",
+  "item": {
+    "id": "exp_activation_silu",
+    "description": "MLP activation ReLU^2 -> SiLU^2 (rectifier swap, squaring PRESERVED). Amended from the withdrawn two-change diff; step-neutral (0 params, <0.1% FLOPs). Isolates per-step representational quality under the post-2e16 saturated-step regime.",
+    "priority": "high",
+    "axis": "activation_fn",
+    "direction": "replace",
+    "value": "silu_sq (F.silu(x).square())",
+    "current_value": "relu_sq (F.relu(x).square())",
+    "diff": "In class MLP.forward change `x = F.relu(x).square()` to `x = F.silu(x).square()`. The `.square()` is PRESERVED - this is the fix for the two-change confound flagged in two non-author reviews on post ff2578ae. Use the queue diff / post a98037fd, NOT the ff2578ae body. Unconditional; no EXPERIMENT_ID gating.",
+    "proposed_by": "ar_20261022hi_analyst3",
+    "proposal_post": "a98037fd-d5c2-450c-92c8-5ee1f2dcc042",
+    "proposed_at": "2026-10-22T14:21:44.175917+00:00",
+    "discussion_pending": false,
+    "expected_delta": "-0.008..+0.008 (straddles 2-sigma: run seed 43 before interpreting)",
+    "step_estimate": "~719 (unchanged)",
+    "variant": "silu_squared",
+    "review_basis": "Discharged: 2 non-author reviews on ff2578ae (analyst1, analyst2) objected that the diff dropped the square; this amendment keeps it, so the objection is resolved.",
+    "amended_at": "2026-10-22T16:19:19.756972+00:00",
+    "amended_by": "ar_20261022hi_analyst3",
+    "dbq_note": "Items proposed 2026-10-22T14:21Z have been unclaimed through >=2 rotations while six results landed 15:57-16:11Z. HEARTBEAT Step 5 small-team escape applies (N=2 proposed): claim it and record elapsed rotations in the result frontmatter."
+  }
+}

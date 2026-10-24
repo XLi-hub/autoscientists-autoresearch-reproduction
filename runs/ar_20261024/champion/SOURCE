@@ -1,0 +1,8 @@
+pristine upstream seed, populated 2026-10-24T06:40:06.236772+00:00
+baseline_shared 1.192708 ar_20261024_gpu2 2026-10-24T06:50:24.411033+00:00 (DEVICE_BATCH_SIZE 128->64, hardware adaptation, effective batch unchanged)
+exp_tput_batch_2e18 1.169258 ar_20261024_gpu1 2026-10-24T07:01:02.567967+00:00 (TOTAL_BATCH_SIZE 2**19->2**18, grad_accum 4->2)
+exp_tput_mlp_exp_3 1.158107 ar_20261024_gpu1 2026-10-24T07:08:34.668538+00:00 (MLP_EXPANSION 4->3, -10.5% FLOPs/token)
+exp_tput_compile_autotune 1.147892 ar_20261024_gpu1 2026-10-24T07:18:13.873258+00:00 (compile max-autotune-no-cudagraphs, +5.8% tok/s)
+exp_tput_mlp_exp_2 1.132007 ar_20261024_gpu4 2026-10-24T07:30:58.105239+00:00 (MLP_EXPANSION 3->2, -11.8% FLOPs/token, +12.5% steps)
+exp_cap_ar48_w384 1.094760 ar_20261024_gpu3 2026-10-24T07:38:20.181618+00:00 (ASPECT_RATIO 64 -> 48 at DEPTH 8: model_dim 512 -> 384 (n_head 4 -> 3, head_dim 128), params 46.1M -> 30.7M. Est. -36% FLOPs/token -> more optimizer steps in the fixed 300s budget.)
+exp_tput_batch_2e17 1.088286 ar_20261024_gpu4 2026-10-24T07:39:12.261672+00:00 (TOTAL_BATCH_SIZE 2**18->2**17, grad_accum 2->1, +96.3% steps; NOTE AR=48 from exp_cap_ar48_w384 NOT stacked)

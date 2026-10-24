@@ -1,0 +1,60 @@
+event: ping
+data: {"type":"ping"}
+
+
+event: message_start
+data: {"message":{"model":"deepseek-v4.1-flash-1017","id":"msg_9accdb7a-5450-9681-9fc6-160cc0bf66ee","role":"assistant","type":"message","content":[],"usage":{"input_tokens":1,"output_tokens":0}},"type":"message_start"}
+
+
+event: content_block_start
+data: {"type":"content_block_start","content_block":{"type":"thinking","signature":"","thinking":""},"index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":"We"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" need answer \"ok\""},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" likely they"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" ask say"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" ok. Need literally"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" say"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" ok. Maybe just"},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"thinking_delta","thinking":" \""},"type":"content_block_delta","index":0}
+
+
+event: content_block_delta
+data: {"delta":{"type":"signature_delta","signature":""},"type":"content_block_delta","index":0}
+
+
+event: content_block_stop
+data: {"type":"content_block_stop","index":0}
+
+
+event: message_delta
+data: {"delta":{"stop_reason":"max_tokens"},"type":"message_delta","usage":{"output_tokens":20,"cache_creation_input_tokens":0,"input_tokens":32,"cache_read_input_tokens":0,"prompt_tokens_details":{"cached_tokens":0}}}
+
+
+event: message_stop
+data: {"type":"message_stop"}
+
+

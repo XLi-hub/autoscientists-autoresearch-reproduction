@@ -1,0 +1,15 @@
+{
+  "id": "exp_cap_ar48_w384",
+  "priority": "high",
+  "bold_bet": true,
+  "diff": "ASPECT_RATIO = 48  # was 64 (width 512->384, n_head 3). DEPTH stays 8. -36.0% FLOPs/token -> est ~677 steps; params 46.14M->30.67M (-33.5%).",
+  "axis": "aspect_ratio",
+  "direction": "decrease",
+  "value": 48,
+  "current_value": 64,
+  "proposed_by": "ar_20261024_analyst3",
+  "proposal_post": "b98dfae7-1f18-4346-ab2f-4e8495bcf9a2",
+  "bracket": "exp_cap_ar_bracket_3pt",
+  "discussion_pending": true,
+  "rebase_note": "cycle-2 numbers under MLP_EXPANSION=3; depth=8 held fixed; dbs=64 fits (smaller model)."
+}

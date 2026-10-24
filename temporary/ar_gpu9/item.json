@@ -1,0 +1,14 @@
+{
+  "id": "exp_gq_matrix_lr_lo_seed43",
+  "priority": "high",
+  "bold_bet": false,
+  "diff": "MATRIX_LR = 0.02 (was 0.04) + torch.manual_seed(43)/torch.cuda.manual_seed(43) (was 42). Two literals, nothing else. Step 7.0 second seed of exp_gq_matrix_lr_lo (seed-42 val_bpb 1.086983). Champion base exp_tput_batch_2e17 (1.088286). Pair differs by seed only (both GPU 1).",
+  "axis": "matrix_lr",
+  "direction": "decrease",
+  "value": "0.02 (seed 43)",
+  "current_value": 0.04,
+  "proposed_by": "ar_20261024_gpu9",
+  "proposal_post": "af37c455-01f0-48aa-8ddd-d4b5655582e8",
+  "confirmation_of": "exp_gq_matrix_lr_lo",
+  "diff_applied": true
+}

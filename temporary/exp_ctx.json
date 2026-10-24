@@ -1,0 +1,8 @@
+{
+  "exp_id": "exp_gq_adam_beta2_hi",
+  "our_metric": 1.089357,
+  "delta": -0.001070999999999822,
+  "outcome": "DISCARD",
+  "current_best": 1.088286,
+  "description": "ADAM_BETAS (0.8,0.95) -> (0.8,0.99): beta1 PINNED at the champion value, beta2-only. Second-moment EMA horizon 20 -> 100 optimizer steps (2.09% -> 10.5% of a ~950-step run). AdamW groups (wte + 4 VE tables + lm_head) = 60.0% of the 41.94M params. Files analyst3's confound fix (comment 161dc526) on the filed adam_betas bracket, whose arms moved beta1 and beta2 together."
+}

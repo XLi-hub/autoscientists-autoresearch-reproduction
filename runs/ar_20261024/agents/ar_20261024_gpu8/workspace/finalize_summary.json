@@ -1,0 +1,12 @@
+{
+  "exp_id": "exp_cal_champion_seed43",
+  "val_bpb": 1.090998,
+  "delta": 0.0027119999999998257,
+  "outcome": "CALIBRATION",
+  "sigma_after": 0.00266,
+  "n_pairs_after": 4,
+  "final20_drop": 0.06298699999999968,
+  "result_post_id": null,
+  "champion_untouched": true,
+  "finished_at": "2026-10-24T08:20:11.223792+00:00"
+}

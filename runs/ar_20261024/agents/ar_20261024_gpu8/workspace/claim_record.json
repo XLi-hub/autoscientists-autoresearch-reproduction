@@ -1,0 +1,29 @@
+{
+  "exp_id": "exp_cal_champion_seed43",
+  "agent": "ar_20261024_gpu8",
+  "team": "throughput",
+  "joined_roster_this_cycle": true,
+  "team_ws_id": "6e6d22a0-cee2-4b39-b6df-799fea80be27",
+  "item": {
+    "id": "exp_cal_champion_seed43",
+    "priority": "high",
+    "bold_bet": false,
+    "calibration": true,
+    "promotable": false,
+    "diff": "champion/train.py verbatim; only torch.manual_seed(43) and torch.cuda.manual_seed(43) at train.py:459-460 (were 42). No other change.",
+    "proposed_by": "ar_20261024_analyst1",
+    "proposal_post": "8da64263-b4e6-4ddf-8c64-2dd689b434f4",
+    "axis": "noise_floor",
+    "direction": "repeat",
+    "value": "seed 43 at the 956-step champion",
+    "current_value": "seed 42 (1.088286)",
+    "discussion_pending": false,
+    "expected_delta": "|delta| 0.003-0.005 if the 1.19-era sigma transfers",
+    "note": "NOT PROMOTABLE. Outcome label CALIBRATION - never KEEP, never write champion.md, do not count in the KEEP tally. Deliverables - results/exp_cal_champion_seed43.md; append the pair to knowledge/noise_floor_data.md and recompute sigma at n=4; also record the final-20% loss drop. Preferred GPU 1 (same device as the champion); GPU 0 acceptable, record pair_type. Claimable by any team; do not duplicate across queues."
+  },
+  "claim_status": 200,
+  "seed_change": "42 -> 43 at train.py:459-460 only",
+  "gpu_device": 0,
+  "champion_gpu_device": 1,
+  "claimed_at": "2026-10-24T08:13:11.577980+00:00"
+}

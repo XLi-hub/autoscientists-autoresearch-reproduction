@@ -1,0 +1,10 @@
+{
+  "agentType": "general-purpose",
+  "description": "analyst1 cycle",
+  "toolUseId": "call_02_KZ0HzLAB7FvudyEeFrc64013",
+  "spawnDepth": 1,
+  "requestShape": "background",
+  "requestNonInteractive": true,
+  "model": "sonnet",
+  "finished": true
+}

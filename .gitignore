@@ -1,0 +1,9 @@
+.env
+credentials.json
+agent_tokens.json
+*.token
+*.pem
+*.key
+__pycache__/
+.cache/
+node_modules/
