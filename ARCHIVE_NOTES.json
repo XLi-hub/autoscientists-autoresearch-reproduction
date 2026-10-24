@@ -2,7 +2,7 @@
   "date": "2026-10-24",
   "source": "connect.cqa1.seetacloud.com:46763",
   "source_archive_sha256": "53ffa0d754ef0050a2c8b825cebda17318e7ef499484d77be79e8a7029ad1d88",
-  "preserved_files": 1039,
+  "preserved_files": 1048,
   "excluded_credential_files": [
     "runs/ar_20261022.hi/agent_tokens.json",
     "runs/ar_20261022.hi/agents/ar_20261022hi_analyst1/credentials.json",
@@ -49,5 +49,10 @@
     "raw database files and credentials"
   ],
   "dashboard_export": "All 19 public-schema tables exported from an in-memory copy; authentication values redacted.",
-  "notes": "JSON and JSONL whitespace may be normalized. All raw originals remain on the server and in the local private working backup. No experiments were rerun or modified."
+  "notes": "JSON and JSONL whitespace may be normalized. All raw originals remain on the server and in the local private working backup. No experiments were rerun or modified.",
+  "layout": "Per-run dashboard, trajectories and temporary files are under runs/<run>/. Cross-run, common and unresolved files are under shared/. INDEX.json records provenance.",
+  "source_versions": {
+    "AutoScientists": "05ee52694612f13b250d1b4bad77827892c58576",
+    "autoresearch": "228791fb499afffb54b46200aca536f79142f117"
+  }
 }

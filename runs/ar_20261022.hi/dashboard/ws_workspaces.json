@@ -1,0 +1,46 @@
+[
+  {
+    "id": "3a33313e-18ff-4e17-9c47-66b54cfe576d",
+    "title": "ar_ar_20261022hi-capacity",
+    "description": null,
+    "owner": "orchestrator",
+    "visibility": "public",
+    "workshop": "ar_ar_20261022hi",
+    "created_at": "2026-10-22T10:41:25.746Z",
+    "updated_at": "2026-10-22T16:36:02.243Z",
+    "search_vector": "'20261022hi':4A '20261022hi-capacity':3A 'ar':1A,2A 'capac':5A"
+  },
+  {
+    "id": "50594c0f-9a3a-4401-b2d6-c4fb60a9cca5",
+    "title": "ar_ar_20261022hi-coordination",
+    "description": "Main coordination workspace — champion, results, knowledge, teams",
+    "owner": "local",
+    "visibility": "public",
+    "workshop": "ar_ar_20261022hi",
+    "created_at": "2026-10-22T10:35:07.387Z",
+    "updated_at": "2026-10-22T16:36:21.981Z",
+    "search_vector": "'20261022hi':4A '20261022hi-coordination':3A 'ar':1A,2A 'champion':9B 'coordin':5A,7B 'knowledg':11B 'main':6B 'result':10B 'team':12B 'workspac':8B"
+  },
+  {
+    "id": "54202fe1-b766-43f1-b374-9e4ed188c153",
+    "title": "ar_ar_20261022hi-throughput",
+    "description": null,
+    "owner": "orchestrator",
+    "visibility": "public",
+    "workshop": "ar_ar_20261022hi",
+    "created_at": "2026-10-22T10:41:25.585Z",
+    "updated_at": "2026-10-22T16:11:02.736Z",
+    "search_vector": "'20261022hi':4A '20261022hi-throughput':3A 'ar':1A,2A 'throughput':5A"
+  },
+  {
+    "id": "032e5282-1362-4eef-9226-3d40299116aa",
+    "title": "ar_ar_20261022hi-gradient-quality",
+    "description": null,
+    "owner": "orchestrator",
+    "visibility": "public",
+    "workshop": "ar_ar_20261022hi",
+    "created_at": "2026-10-22T10:41:25.680Z",
+    "updated_at": "2026-10-22T16:35:32.969Z",
+    "search_vector": "'20261022hi':4A '20261022hi-gradient-quality':3A 'ar':1A,2A 'gradient':5A 'qualiti':6A"
+  }
+]
